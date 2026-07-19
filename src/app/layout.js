@@ -12,8 +12,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "CyberX Community — Hiring Platform",
-  description: "Join the CyberX Community — Where cybersecurity meets innovation",
+  title: "CyberX Community — Where Cybersecurity Meets Innovation",
+  description: "CyberX is a student-driven cybersecurity community building the next generation of security professionals through CTFs, workshops, open-source tools, and collaboration.",
 };
 
 export default function RootLayout({ children }) {
