@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification - CyberX Community</title>
+    <!--[if mso]>
+    <style type="text/css">
+        body, table, td, p, a { font-family: Arial, sans-serif !important; }
+    </style>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body style="margin: 0; padding: 0; background-color: #050505; font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;">
+
+    <!-- Main Container -->
+    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #050505; min-height: 100vh;">
+        <tr>
+            <td style="padding: 40px 20px;" align="center">
+
+                <!-- Email Card -->
+                <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="600" style="background-color: #0d0d0d; border-radius: 16px; border: 1px solid #1a1a1a; overflow: hidden; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);">
+
+                    <!-- Top Accent Bar -->
+                    <tr>
+                        <td style="height: 4px; background: linear-gradient(90deg, #facc15, #e6c200, #facc15); font-size: 0; line-height: 0;"></td>
+                    </tr>
+
+                    <!-- Logo Section -->
+                    <tr>
+                        <td style="padding: 40px 40px 20px 40px; text-align: center;">
+                            <img src="https://cyberx.community/assets/logo.png" alt="CyberX Logo" width="180" style="display: inline-block; border: none; outline: none; text-decoration: none;">
+                        </td>
+                    </tr>
+
+                    <!-- Title / Header -->
+                    <tr>
+                        <td style="padding: 10px 40px 10px 40px; text-align: center;">
+                            <h1 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: 700; letter-spacing: -0.5px; line-height: 1.3;">
+                                {{title}}
+                            </h1>
+                        </td>
+                    </tr>
+
+                    <!-- Main Body Content -->
+                    <tr>
+                        <td style="padding: 10px 40px 25px 40px;">
+                            <p style="margin: 0 0 16px 0; color: #e5e7eb; font-size: 15px; line-height: 1.6; font-weight: 400;">
+                                Hey {{name}},
+                            </p>
+                            <div style="color: #9ca3af; font-size: 14px; line-height: 1.6; font-weight: 400;">
+                                {{messageContent}}
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Call To Action Button (Optional) -->
+                    {{#if ctaLink}}
+                    <tr>
+                        <td style="padding: 0 40px 30px 40px; text-align: center;">
+                            <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: 0 auto;">
+                                <tr>
+                                    <td style="border-radius: 8px; background-color: #facc15; text-align: center;">
+                                        <a href="{{ctaLink}}" target="_blank" style="background-color: #facc15; border: 1px solid #facc15; border-radius: 8px; color: #000000; display: inline-block; font-size: 15px; font-weight: 600; line-height: 1.2; padding: 14px 28px; text-decoration: none; text-align: center;">
+                                            {{ctaText}}
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    {{/if}}
+
+                    <!-- Info Highlight Box (Optional) -->
+                    {{#if highlightTitle}}
+                    <tr>
+                        <td style="padding: 0 40px 30px 40px;">
+                            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: rgba(26, 26, 26, 0.4); border: 1px solid #1f1f1f; border-radius: 12px;">
+                                <tr>
+                                    <td style="padding: 20px;">
+                                        <h3 style="margin: 0 0 10px 0; color: #ffffff; font-size: 15px; font-weight: 600;">
+                                            📢 {{highlightTitle}}
+                                        </h3>
+                                        <p style="margin: 0; color: #9ca3af; font-size: 13px; line-height: 1.5;">
+                                            {{highlightText}}
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    {{/if}}
+
+                    <!-- Footer Info -->
+                    <tr>
+                        <td style="padding: 30px 40px; border-top: 1px solid #1a1a1a; text-align: center;">
+                            <p style="margin: 0 0 12px 0; color: #6b7280; font-size: 13px;">
+                                Stay connected with the CyberX Community
+                            </p>
+                            <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: 0 auto;">
+                                <tr>
+                                    <td style="padding: 0 10px;">
+                                        <a href="https://www.linkedin.com/company/cyberx-community" style="color: #facc15; text-decoration: none; font-size: 13px; font-weight: 500;">LinkedIn</a>
+                                    </td>
+                                    <td style="color: #222222; font-size: 13px;">|</td>
+                                    <td style="padding: 0 10px;">
+                                        <a href="https://www.instagram.com/cyberx_community" style="color: #facc15; text-decoration: none; font-size: 13px; font-weight: 500;">Instagram</a>
+                                    </td>
+                                    <td style="color: #222222; font-size: 13px;">|</td>
+                                    <td style="padding: 0 10px;">
+                                        <a href="https://cyberx.community" style="color: #facc15; text-decoration: none; font-size: 13px; font-weight: 500;">Website</a>
+                                    </td>
+                                    <td style="color: #222222; font-size: 13px;">|</td>
+                                    <td style="padding: 0 10px;">
+                                        <a href="https://discord.gg/cyberx" style="color: #facc15; text-decoration: none; font-size: 13px; font-weight: 500;">Discord</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Disclaimer -->
+                    <tr>
+                        <td style="padding: 0px 40px 30px 40px; text-align: center;">
+                            <p style="margin: 0; color: #4b5563; font-size: 11px; line-height: 1.4;">
+                                You are receiving this email because you are a registered member of the CyberX Community.<br>
+                                © 2026 CyberX Community. All rights reserved.
+                            </p>
+                        </td>
+                    </tr>
+
+                </table>
+
+            </td>
+        </tr>
+    </table>
+
+</body>
+
+</html>

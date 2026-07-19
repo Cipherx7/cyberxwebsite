@@ -7,6 +7,7 @@ const RsvpSchema = new mongoose.Schema({
     eventName: { type: String, default: 'How Investigators Find Anyone Online using Open Source Intelligence (OSINT)' },
     anonymousQuestion: { type: String, default: '' },
     eventDate: { type: String, default: '25th July | 3 PM IST (11:30 AM CET)' },
+    qrCode: { type: String, default: '' },
 }, {
     timestamps: true
 });

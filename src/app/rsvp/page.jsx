@@ -11,6 +11,7 @@ export default function RsvpPage() {
     const [t, setT] = useState(getTranslations('en'));
     const [showLangMenu, setShowLangMenu] = useState(false);
     const [formData, setFormData] = useState({ name: '', email: '', privacyAccepted: false, anonymousQuestion: '' });
+    const [rsvpDetails, setRsvpDetails] = useState(null);
     const [status, setStatus] = useState('idle'); // idle, loading, success, error
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -54,6 +55,7 @@ export default function RsvpPage() {
             const data = await res.json();
 
             if (res.ok) {
+                setRsvpDetails(data.data);
                 setStatus('success');
             } else {
                 setStatus('error');
@@ -73,26 +75,96 @@ export default function RsvpPage() {
         }));
     };
 
-    if (status === 'success') {
+    if (status === 'success' && rsvpDetails) {
         return (
-            <div className="min-h-screen bg-black text-white">
+            <div className="min-h-screen bg-black text-white selection:bg-yellow-500/30">
                 <Navbar />
-                <div className="flex items-center justify-center min-h-screen p-4 pt-20">
-                    <div className="max-w-md w-full bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 sm:p-8 text-center space-y-6">
-                        <div className="w-20 h-20 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(34,197,94,0.3)]">
-                            <CheckCircle2 size={40} />
-                        </div>
-                        <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">{t.successTitle}</h2>
-                        <p className="text-zinc-400 text-sm sm:text-base">
-                            {t.successMessage} <span className="text-white font-medium">{formData.email}</span>.
-                        </p>
-                        <button 
-                            onClick={() => window.location.href = '/'}
-                            className="mt-8 px-6 py-3 bg-white text-black rounded-full font-medium hover:bg-zinc-200 transition-colors w-full"
-                        >
-                            {t.backHome}
-                        </button>
+                
+                {/* Background elements */}
+                <div className="fixed inset-0 overflow-hidden pointer-events-none">
+                    <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-yellow-500/10 blur-[120px]" />
+                    <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-yellow-500/5 blur-[120px]" />
+                </div>
+
+                <div className="flex flex-col items-center justify-center min-h-screen p-4 pt-24 pb-12 relative z-10">
+                    <div className="w-16 h-16 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mb-4 shadow-[0_0_30px_rgba(34,197,94,0.3)] animate-pulse">
+                        <CheckCircle2 size={32} />
                     </div>
+                    <h2 className="text-2xl sm:text-3xl font-bold text-center mb-1 text-white tracking-tight">{t.successTitle}</h2>
+                    <p className="text-zinc-400 text-xs sm:text-sm text-center mb-6 max-w-sm">
+                        {t.successMessage} <span className="text-yellow-500 font-medium">{rsvpDetails.email}</span>. Your ticket pass is ready!
+                    </p>
+
+                    {/* Sleek Ticket Pass */}
+                    <div className="relative w-full max-w-sm bg-zinc-900/60 backdrop-blur-xl border border-zinc-800 rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
+                        {/* Gold accent top bar */}
+                        <div className="h-1.5 w-full bg-gradient-to-r from-yellow-500 via-yellow-300 to-yellow-500" />
+                        
+                        {/* Ticket Content */}
+                        <div className="p-6 space-y-5">
+                            {/* Logo and Event Status */}
+                            <div className="flex justify-between items-center border-b border-zinc-850 pb-3">
+                                <span className="font-extrabold text-base tracking-wider text-white">CYBER<span className="text-yellow-500">X</span></span>
+                                <span className="text-[9px] tracking-widest uppercase bg-yellow-500/10 border border-yellow-500/30 text-yellow-500 px-2 py-0.5 rounded-full font-bold">
+                                    Official Pass
+                                </span>
+                            </div>
+
+                            {/* Event Title */}
+                            <div className="space-y-0.5">
+                                <span className="text-[9px] tracking-wider uppercase text-zinc-500 font-semibold">Event</span>
+                                <h4 className="text-sm font-bold text-white leading-snug">
+                                    {rsvpDetails.eventName}
+                                </h4>
+                            </div>
+
+                            {/* Ticket Details */}
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-0.5">
+                                    <span className="text-[9px] tracking-wider uppercase text-zinc-500 font-semibold">Attendee</span>
+                                    <p className="text-xs font-semibold text-white truncate">{rsvpDetails.name}</p>
+                                </div>
+                                <div className="space-y-0.5 text-right">
+                                    <span className="text-[9px] tracking-wider uppercase text-zinc-500 font-semibold">Date & Time</span>
+                                    <p className="text-[10px] font-semibold text-white leading-tight">
+                                        {rsvpDetails.eventDate}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Ticket Cutouts & Dashed Divider */}
+                        <div className="relative flex items-center justify-between">
+                            <div className="absolute left-[-10px] w-5 h-5 rounded-full bg-black border-r border-zinc-800 z-10" />
+                            <div className="w-full border-t border-dashed border-zinc-800/80 mx-4" />
+                            <div className="absolute right-[-10px] w-5 h-5 rounded-full bg-black border-l border-zinc-800 z-10" />
+                        </div>
+
+                        {/* Ticket Stub (QR Code) */}
+                        <div className="p-6 bg-zinc-950/40 flex flex-col items-center justify-center space-y-3">
+                            <div className="p-2 bg-white rounded-xl shadow-[0_0_15px_rgba(255,255,255,0.03)] border border-zinc-200">
+                                <img 
+                                    src={`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(rsvpDetails.qrCode)}`}
+                                    alt="Registration QR Code" 
+                                    className="w-32 h-32 object-contain rounded-lg"
+                                    loading="lazy"
+                                />
+                            </div>
+                            <div className="text-center space-y-0.5">
+                                <span className="text-[8px] tracking-widest uppercase text-zinc-500 font-semibold">Access Pass Code</span>
+                                <p className="text-xs font-mono font-bold text-yellow-500 tracking-wider">
+                                    {rsvpDetails.qrCode}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button 
+                        onClick={() => window.location.href = '/'}
+                        className="mt-6 px-6 py-3 bg-zinc-900 border border-zinc-850 text-white rounded-full font-medium hover:bg-zinc-800 transition-colors w-full max-w-xs flex items-center justify-center gap-2 text-sm"
+                    >
+                        {t.backHome}
+                    </button>
                 </div>
             </div>
         );

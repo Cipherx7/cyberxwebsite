@@ -2,6 +2,7 @@ import dbConnect from '../../../../lib/mongodb';
 import Application from '../../../../models/Application';
 import { put } from '@vercel/blob';
 import { verifyAdmin, unauthorizedResponse } from '../../../../lib/auth-utils';
+import { sendApplicationConfirmationEmail } from '../../../../lib/mailer';
 
 // Simple in-memory rate limiting store
 const rateLimitStore = new Map();
@@ -156,6 +157,18 @@ export async function POST(request) {
 
     const application = new Application(processedData);
     await application.save();
+
+    // Send Application Confirmation Email (via Gmail)
+    try {
+        await sendApplicationConfirmationEmail({
+            to: processedData.email,
+            fullName: processedData.fullName,
+            applicationId: application._id.toString(),
+            submittedDate: application.submittedAt ? new Date(application.submittedAt).toLocaleDateString('en-US', { dateStyle: 'long' }) : undefined
+        });
+    } catch (emailError) {
+        console.error('Failed to send application confirmation email:', emailError);
+    }
 
     // Send data to webhook (excluding resume) - non-blocking
     try {
