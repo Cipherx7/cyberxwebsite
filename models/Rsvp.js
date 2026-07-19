@@ -11,4 +11,4 @@ const RsvpSchema = new mongoose.Schema({
     timestamps: true
 });
 
-export default mongoose.models.Rsvp || mongoose.model('Rsvp', RsvpSchema);
+export default mongoose.models.Rsvp || mongoose.model('Rsvp', RsvpSchema, 'osintevent');
