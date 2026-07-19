@@ -1,196 +1,135 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { Shield, Sparkles, Clock } from "lucide-react";
 
-/* ──────────────────────────────────────────────
-   HALL OF FAME DATA
-   ────────────────────────────────────────────── */
-const HALL_OF_FAME = [
-    {
-        year: 2026,
-        entries: [
-            {
-                name: "Pranit Chavan",
-                description: "Reported Stored XSS vulnerability on examplecorp.com",
-                date: "15 January 2026",
-            },
-            {
-                name: "Aarav Mehta",
-                description: "Reported IDOR vulnerability on finsecure.io",
-                date: "3 February 2026",
-            },
-            {
-                name: "Sneha Patil",
-                description: "Reported Rate Limiting Bypass on quickpay.in",
-                date: "28 January 2026",
-            },
-        ],
-    },
-    {
-        year: 2025,
-        entries: [
-            {
-                name: "Rohit Sharma",
-                description: "Reported SQL Injection vulnerability on eduportal.com",
-                date: "20 November 2025",
-            },
-            {
-                name: "Pranit Chavan",
-                description: "Reported Authentication Bypass vulnerability on cloudstack.io",
-                date: "14 September 2025",
-            },
-            {
-                name: "Priya Deshmukh",
-                description: "Reported SSRF vulnerability on docgen.com",
-                date: "30 July 2025",
-            },
-            {
-                name: "Vikram Singh",
-                description: "Reported Privilege Escalation vulnerability on teamflow.app",
-                date: "12 June 2025",
-            },
-            {
-                name: "Ananya Kulkarni",
-                description: "Reported CSRF vulnerability on healthtrack.org",
-                date: "22 April 2025",
-            },
-            {
-                name: "Aarav Mehta",
-                description: "Reported Information Disclosure vulnerability on retailmax.com",
-                date: "8 March 2025",
-            },
-        ],
-    },
-    {
-        year: 2024,
-        entries: [
-            {
-                name: "Rohit Sharma",
-                description: "Reported Remote Code Execution vulnerability on logmanager.io",
-                date: "5 December 2024",
-            },
-            {
-                name: "Priya Deshmukh",
-                description: "Reported XXE Injection vulnerability on datavault.com",
-                date: "18 October 2024",
-            },
-            {
-                name: "Sneha Patil",
-                description: "Reported Open Redirect vulnerability on socialhub.com",
-                date: "25 August 2024",
-            },
-            {
-                name: "Vikram Singh",
-                description: "Reported Subdomain Takeover vulnerability on techstart.co",
-                date: "14 May 2024",
-            },
-        ],
-    },
-];
-
-/* ──────────────────────────────────────────────
-   MAIN PAGE
-   ────────────────────────────────────────────── */
 export default function HallOfFame() {
     return (
-        <div className="min-h-screen bg-[var(--color-cyber-black)] text-[var(--color-cyber-text)]">
+        <div className="min-h-screen bg-[var(--color-cyber-black)] text-[var(--color-cyber-text)] selection:bg-[var(--color-cyber-yellow)] selection:text-black">
             <style jsx global>{`
-        .hof-entry {
-          opacity: 0;
-          transform: translateY(8px);
-          animation: hofFadeIn 0.4s ease-out forwards;
-        }
-        @keyframes hofFadeIn {
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .hof-hero-grid {
-          background-image:
-            linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
-          background-size: 80px 80px;
-        }
-      `}</style>
+                .hof-hero-grid {
+                    background-image: linear-gradient(
+                            rgba(255, 255, 255, 0.015) 1px,
+                            transparent 1px
+                        ),
+                        linear-gradient(
+                            90deg,
+                            rgba(255, 255, 255, 0.015) 1px,
+                            transparent 1px
+                        );
+                    background-size: 80px 80px;
+                }
+                .premium-glow {
+                    text-shadow: 0 0 30px rgba(230, 194, 0, 0.2);
+                }
+                .coming-soon-card {
+                    background: rgba(24, 24, 27, 0.4);
+                    backdrop-filter: blur(20px);
+                    border: 1px solid rgba(255, 255, 255, 0.04);
+                    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+                }
+            `}</style>
 
             {/* ═══ HERO ═══ */}
             <header className="relative border-b border-[var(--color-cyber-border)] overflow-hidden">
                 <div className="absolute inset-0 hof-hero-grid pointer-events-none" />
                 <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[500px] h-[350px] bg-[var(--color-cyber-yellow)] rounded-full blur-[200px] opacity-[0.03] pointer-events-none" />
 
-                <div className="relative max-w-3xl mx-auto px-6 pt-8 pb-14">
+                <div className="relative max-w-3xl mx-auto px-6 pt-8 pb-12">
                     {/* Nav */}
-                    <nav className="flex items-center justify-between mb-20">
-                        <a href="/" className="text-sm text-[var(--color-cyber-text-muted)] hover:text-white transition-colors flex items-center gap-1.5">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
+                    <nav className="flex items-center justify-between mb-16">
+                        <Link
+                            href="/"
+                            className="text-sm text-[var(--color-cyber-text-muted)] hover:text-white transition-colors flex items-center gap-1.5"
+                        >
+                            <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            >
+                                <path d="m15 18-6-6 6-6" />
+                            </svg>
                             Home
-                        </a>
+                        </Link>
                         <div className="relative w-28 h-9">
-                            <Image src="/assets/logo.png" alt="CyberX" fill className="object-contain" priority />
+                            <Image
+                                src="/assets/logo.png"
+                                alt="CyberX"
+                                fill
+                                className="object-contain"
+                                priority
+                            />
                         </div>
                     </nav>
 
                     {/* Title */}
                     <div className="text-center">
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--color-cyber-yellow)]/15 bg-[var(--color-cyber-yellow)]/5 mb-5">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[var(--color-cyber-yellow)]"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
+                            <Shield
+                                size={14}
+                                className="text-[var(--color-cyber-yellow)]"
+                            />
                             <span className="text-[11px] font-semibold tracking-[0.12em] uppercase text-[var(--color-cyber-yellow)]">
-                                Security Research
+                                Security Research & Contributions
                             </span>
                         </div>
 
-                        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.1] mb-5">
+                        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.1] mb-5 premium-glow">
                             Hall of <span className="text-[var(--color-cyber-yellow)]">Fame</span>
                         </h1>
 
                         <p className="text-[var(--color-cyber-text-secondary)] text-sm sm:text-base leading-relaxed max-w-lg mx-auto">
-                            We would like to thank the following security researchers for responsibly disclosing vulnerabilities and helping us improve security.
+                            Recognizing talented ethical hackers, bug hunters, and community contributors who help make the digital space safer.
                         </p>
                     </div>
                 </div>
             </header>
 
-            {/* ═══ ENTRIES BY YEAR ═══ */}
-            <main className="max-w-3xl mx-auto px-6 py-14">
-                {HALL_OF_FAME.map((yearGroup, yi) => (
-                    <section key={yearGroup.year} className={yi > 0 ? "mt-14" : ""}>
-                        {/* Year */}
-                        <div className="flex items-center gap-4 mb-8">
-                            <h2 className="text-3xl sm:text-4xl font-extrabold text-[var(--color-cyber-yellow)] tracking-tight">
-                                {yearGroup.year}
-                            </h2>
-                            <div className="flex-1 h-px bg-[var(--color-cyber-border)]" />
-                        </div>
+            {/* ═══ COMING SOON DISPLAY ═══ */}
+            <main className="max-w-2xl mx-auto px-6 py-20 text-center">
+                <div className="coming-soon-card rounded-2xl p-12 flex flex-col items-center justify-center space-y-6 relative overflow-hidden">
+                    {/* Background visual details */}
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[var(--color-cyber-yellow)] to-transparent opacity-40"></div>
 
-                        {/* Entries */}
-                        <div className="space-y-8 pl-1">
-                            {yearGroup.entries.map((entry, i) => (
-                                <div
-                                    key={`${yearGroup.year}-${i}`}
-                                    className="hof-entry"
-                                    style={{ animationDelay: `${i * 60}ms` }}
-                                >
-                                    <h3 className="text-base sm:text-lg font-bold text-white mb-1">
-                                        {entry.name}
-                                    </h3>
-                                    <p className="text-sm text-[var(--color-cyber-text-secondary)] mb-1.5 leading-relaxed">
-                                        {entry.description}
-                                    </p>
-                                    <time className="text-xs text-[var(--color-cyber-text-muted)] font-mono">
-                                        {entry.date}
-                                    </time>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
-                ))}
+                    <div className="w-16 h-16 rounded-full bg-[var(--color-cyber-yellow)]/10 flex items-center justify-center text-[var(--color-cyber-yellow)]">
+                        <Clock size={28} className="animate-pulse" />
+                    </div>
+
+                    <div className="space-y-2">
+                        <h2 className="text-2xl font-bold text-white tracking-tight flex items-center justify-center gap-2">
+                            Hall of Fame Coming Soon <Sparkles size={18} className="text-[var(--color-cyber-yellow)]" />
+                        </h2>
+                        <p className="text-sm text-[var(--color-cyber-text-secondary)] leading-relaxed max-w-md mx-auto">
+                            Our responsible disclosure program and submission pipeline are being updated. We will list outstanding researchers and contributors who report verified vulnerabilities soon.
+                        </p>
+                    </div>
+
+                    <div className="pt-4">
+                        <Link
+                            href="/"
+                            className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-lg text-xs font-bold uppercase tracking-wider transition-all"
+                        >
+                            Return Home
+                        </Link>
+                    </div>
+                </div>
             </main>
 
             {/* ═══ FOOTER ═══ */}
-            <footer className="border-t border-[var(--color-cyber-border)] mt-4">
-                <div className="max-w-3xl mx-auto px-6 py-10 text-center">
+            <footer className="border-t border-[var(--color-cyber-border)] mt-12 py-10">
+                <div className="max-w-3xl mx-auto px-6 text-center">
                     <p className="text-sm text-[var(--color-cyber-text-secondary)] mb-1">
                         Found a vulnerability?{" "}
-                        <a href="mailto:security@cyberx.org.in" className="text-[var(--color-cyber-yellow)] hover:underline">
+                        <a
+                            href="mailto:security@cyberx.org.in"
+                            className="text-[var(--color-cyber-yellow)] hover:underline"
+                        >
                             Report it responsibly
                         </a>
                     </p>

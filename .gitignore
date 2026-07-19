@@ -20,9 +20,8 @@
 # production
 /build
 
-# public assets
+# public assets (user uploads only)
 /public/resumes
-/public/assets
 
 # misc
 .DS_Store
