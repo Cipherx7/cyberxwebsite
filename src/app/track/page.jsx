@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import Navbar from '@/components/Navbar';
 
 export default function TrackApplication() {
     const [search, setSearch] = useState('');
@@ -60,18 +61,9 @@ export default function TrackApplication() {
     };
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-[#0E0E0E] font-inter text-[#F2F2F2]">
-
-            {/* Brand Logo */}
-            <div className="mb-8 relative w-64 h-24 md:w-80 md:h-28">
-                <Image
-                    src="/assets/logo.png"
-                    alt="CyberX Logo"
-                    fill
-                    className="object-contain"
-                    priority
-                />
-            </div>
+        <div className="min-h-screen bg-[#0E0E0E] font-inter text-[#F2F2F2]">
+            <Navbar />
+            <div className="flex flex-col items-center justify-center min-h-screen p-4 pt-20">
 
             <div className="w-full max-w-md bg-[#1E1E1E] rounded-[14px] shadow-2xl p-8 border border-white/5 relative overflow-hidden">
                 {/* Decorative elements */}
@@ -142,6 +134,7 @@ export default function TrackApplication() {
                         Back to Home
                     </Link>
                 </div>
+            </div>
             </div>
         </div>
     );

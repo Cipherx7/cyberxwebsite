@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { Handshake, Target, Users, Zap, Award, BookOpen, Lightbulb, MapPin, Mail, ArrowRight, ShieldCheck } from "lucide-react";
+import Navbar from "@/components/Navbar";
 
 /* ──────────────────────────────────────────────
    DATA
@@ -78,7 +79,7 @@ export default function SponsorPage() {
         .text-glow-yellow {
           text-shadow: 0 0 30px rgba(230, 194, 0, 0.2);
         }
-        .pro-card {
+        .pro-card-sponsor {
            background: rgba(24, 24, 27, 0.6);
            backdrop-filter: blur(20px);
            border: 1px solid rgba(255, 255, 255, 0.05);
@@ -87,26 +88,17 @@ export default function SponsorPage() {
         .sharp-input { border-radius: 0 !important; }
       `}</style>
 
+            <Navbar />
+
             {/* ═══════════ HERO ═══════════ */}
-            <header className="relative border-b border-[var(--color-cyber-border)] overflow-hidden">
+            <header className="relative border-b border-[var(--color-cyber-border)] overflow-hidden pt-20">
                 {/* Ambient Grid Context */}
                 <div className="absolute inset-0 sponsor-hero-grid pointer-events-none" />
 
                 {/* Glow Effects */}
                 <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-[var(--color-cyber-yellow)] rounded-full blur-[200px] opacity-[0.035] pointer-events-none" />
 
-                <div className="relative max-w-7xl mx-auto px-6 pt-8 pb-16 lg:pb-24">
-                    {/* Navigation */}
-                    <nav className="flex items-center justify-between mb-16">
-                        <a href="/" className="text-sm text-[var(--color-cyber-text-muted)] hover:text-white transition-colors flex items-center gap-1.5">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
-                            Home
-                        </a>
-                        <div className="relative w-28 h-9">
-                            <Image src="/assets/logo.png" alt="CyberX" fill className="object-contain" priority />
-                        </div>
-                    </nav>
-
+                <div className="relative max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-16 lg:pb-24">
                     {/* Title Area */}
                     <div className="text-center max-w-3xl mx-auto mt-8">
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--color-cyber-yellow)]/15 bg-[var(--color-cyber-yellow)]/5 mb-6">
@@ -116,17 +108,17 @@ export default function SponsorPage() {
                             </span>
                         </div>
 
-                        <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.1] mb-6 text-glow-yellow">
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] mb-6 text-glow-yellow">
                             Sponsor <span className="text-[var(--color-cyber-yellow)] relative">CyberX
                                 <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-[var(--color-cyber-yellow)] to-transparent" />
                             </span>
                         </h1>
 
-                        <p className="text-[var(--color-cyber-text-secondary)] text-base sm:text-xl leading-relaxed max-w-2xl mx-auto mb-10">
+                        <p className="text-[var(--color-cyber-text-secondary)] text-base sm:text-lg lg:text-xl leading-relaxed max-w-2xl mx-auto mb-10">
                             Partner with the fastest-growing cybersecurity community. Reach top talent, increase brand awareness, and help us shape the next generation of security professionals.
                         </p>
 
-                        <a href="#contact" className="inline-flex items-center gap-2 px-8 py-4 bg-[var(--color-cyber-yellow)] hover:bg-yellow-400 text-black font-bold uppercase tracking-wider text-sm sharp-input transition-all duration-300 hover:shadow-[0_0_20px_rgba(230,194,0,0.4)]">
+                        <a href="#contact" className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-[var(--color-cyber-yellow)] hover:bg-yellow-400 text-black font-bold uppercase tracking-wider text-sm sharp-input transition-all duration-300 hover:shadow-[0_0_20px_rgba(230,194,0,0.4)]">
                             Become a Sponsor <ArrowRight size={16} />
                         </a>
                     </div>
@@ -134,11 +126,11 @@ export default function SponsorPage() {
             </header>
 
             {/* ═══════════ REASONS TO SPONSOR ═══════════ */}
-            <section className="py-20 px-6 border-b border-[var(--color-cyber-border)]/50 relative">
+            <section className="py-16 sm:py-20 px-4 sm:px-6 border-b border-[var(--color-cyber-border)]/50 relative">
                 <div className="max-w-7xl mx-auto">
                     <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-12 gap-4">
                         <div>
-                            <h2 className="text-3xl md:text-4xl font-extrabold text-white flex items-center gap-3">
+                            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white flex items-center gap-3">
                                 5 Reasons to Sponsor
                             </h2>
                             <p className="text-[var(--color-cyber-text-muted)] mt-2">Why partnering with CyberX is a strategic win.</p>
@@ -149,57 +141,57 @@ export default function SponsorPage() {
                         {REASONS.map((reason, index) => (
                             <div
                                 key={index}
-                                className={`pro-card p-8 rounded-2xl flex flex-col anim-card group hover:border-[var(--color-cyber-yellow)]/30 transition-colors ${index === 3 ? "lg:col-span-1 lg:col-start-1" : ""} ${index === 4 ? "lg:col-span-2" : ""}`}
+                                className={`pro-card-sponsor p-6 sm:p-8 rounded-2xl flex flex-col anim-card group hover:border-[var(--color-cyber-yellow)]/30 transition-colors ${index === 3 ? "lg:col-span-1 lg:col-start-1" : ""} ${index === 4 ? "lg:col-span-2" : ""}`}
                                 style={{ animationDelay: `${index * 100}ms` }}
                             >
                                 <div className="w-12 h-12 bg-[var(--color-cyber-black)] border border-[var(--color-cyber-border)] rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-[var(--color-cyber-yellow)]/10 transition-all duration-300">
                                     {reason.icon}
                                 </div>
-                                <h3 className="text-xl font-bold text-white mb-3">{reason.title}</h3>
-                                <p className="text-[var(--color-cyber-text-secondary)] leading-relaxed italic border-l-2 border-[var(--color-cyber-border)] pl-4">"{reason.description}"</p>
+                                <h3 className="text-lg sm:text-xl font-bold text-white mb-3">{reason.title}</h3>
+                                <p className="text-[var(--color-cyber-text-secondary)] leading-relaxed italic border-l-2 border-[var(--color-cyber-border)] pl-4 text-sm sm:text-base">"{reason.description}"</p>
                             </div>
                         ))}
                     </div>
                 </div>
-            </section >
+            </section>
 
             {/* ═══════════ WHAT DOES IT LOOK LIKE ═══════════ */}
-            < section className="py-20 px-6 bg-[var(--color-cyber-card)]/30 border-b border-[var(--color-cyber-border)]/50" >
+            <section className="py-16 sm:py-20 px-4 sm:px-6 bg-[var(--color-cyber-card)]/30 border-b border-[var(--color-cyber-border)]/50">
                 <div className="max-w-7xl mx-auto">
                     <div className="mb-12 text-center max-w-3xl mx-auto">
                         <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[var(--color-cyber-yellow)]/10 text-[var(--color-cyber-yellow)] mb-4">
                             <ShieldCheck size={24} />
                         </div>
-                        <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">
+                        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-4">
                             What Does Sponsoring Look Like?
                         </h2>
-                        <p className="text-[var(--color-cyber-text-secondary)]">Depending on the tier, your sponsorship integrates deeply into our community ecosystem, much like leading industry conferences.</p>
+                        <p className="text-[var(--color-cyber-text-secondary)] text-sm sm:text-base">Depending on the tier, your sponsorship integrates deeply into our community ecosystem, much like leading industry conferences.</p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
                         {WHAT_IT_LOOKS_LIKE.map((item, index) => (
-                            <div key={index} className="flex gap-4 p-6 border border-[var(--color-cyber-border)]/50 bg-[var(--color-cyber-black)]/30 rounded-xl hover:bg-[var(--color-cyber-card)]/50 transition-colors">
-                                <div className="text-[var(--color-cyber-yellow)] font-mono font-bold text-2xl opacity-50">0{index + 1}</div>
+                            <div key={index} className="flex gap-4 p-5 sm:p-6 border border-[var(--color-cyber-border)]/50 bg-[var(--color-cyber-black)]/30 rounded-xl hover:bg-[var(--color-cyber-card)]/50 transition-colors">
+                                <div className="text-[var(--color-cyber-yellow)] font-mono font-bold text-2xl opacity-50 shrink-0">0{index + 1}</div>
                                 <div>
-                                    <h4 className="text-lg font-bold text-white mb-2">{item.title}</h4>
+                                    <h4 className="text-base sm:text-lg font-bold text-white mb-2">{item.title}</h4>
                                     <p className="text-sm text-[var(--color-cyber-text-secondary)] leading-relaxed">{item.description}</p>
                                 </div>
                             </div>
                         ))}
                     </div>
                 </div>
-            </section >
+            </section>
 
             {/* ═══════════ SPONSORSHIP CONTACT ═══════════ */}
-            < section id="contact" className="py-24 px-6 relative overflow-hidden" >
+            <section id="contact" className="py-16 sm:py-24 px-4 sm:px-6 relative overflow-hidden">
                 <div className="absolute right-0 bottom-0 w-[500px] h-[500px] bg-[var(--color-cyber-yellow)] rounded-full blur-[250px] opacity-[0.02] pointer-events-none" />
 
-                <div className="max-w-4xl mx-auto pro-card rounded-2xl p-8 md:p-12 relative z-10 border-[var(--color-cyber-yellow)]/20 shadow-2xl shadow-[var(--color-cyber-yellow)]/5">
-                    <div className="flex flex-col md:flex-row gap-12 items-center">
+                <div className="max-w-4xl mx-auto pro-card-sponsor rounded-2xl p-6 sm:p-8 md:p-12 relative z-10 border-[var(--color-cyber-yellow)]/20 shadow-2xl shadow-[var(--color-cyber-yellow)]/5">
+                    <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-center">
 
                         <div className="w-full md:w-1/2">
-                            <h2 className="text-3xl font-extrabold text-white mb-4">Ready to Partner?</h2>
-                            <p className="text-[var(--color-cyber-text-secondary)] leading-relaxed mb-8">
+                            <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-4">Ready to Partner?</h2>
+                            <p className="text-[var(--color-cyber-text-secondary)] leading-relaxed mb-8 text-sm sm:text-base">
                                 Whether you are looking for brand awareness, talent acquisition, or you simply want to support the cybersecurity community, we have customized sponsorship tiers to fit your goals.
                             </p>
 
@@ -215,7 +207,7 @@ export default function SponsorPage() {
                             </div>
                         </div>
 
-                        <div className="w-full md:w-1/2 bg-[var(--color-cyber-black)] p-6 md:p-8 rounded-xl border border-[var(--color-cyber-border)]">
+                        <div className="w-full md:w-1/2 bg-[var(--color-cyber-black)] p-5 sm:p-6 md:p-8 rounded-xl border border-[var(--color-cyber-border)]">
                             <h3 className="text-sm font-bold uppercase tracking-wider text-[var(--color-cyber-yellow)] mb-6">Contact Form</h3>
 
                             <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
@@ -242,16 +234,16 @@ export default function SponsorPage() {
 
                     </div>
                 </div>
-            </section >
+            </section>
 
             {/* ═══════════ FOOTER ═══════════ */}
-            < footer className="border-t border-[var(--color-cyber-border)] py-10" >
-                <div className="max-w-7xl mx-auto px-6 text-center">
+            <footer className="border-t border-[var(--color-cyber-border)] py-10">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
                     <p className="text-xs text-[var(--color-cyber-text-muted)] mt-4">
                         © 2026 CyberX Community — All rights reserved.
                     </p>
                 </div>
-            </footer >
-        </div >
+            </footer>
+        </div>
     );
 }

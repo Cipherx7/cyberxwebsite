@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Navbar from '@/components/Navbar';
 
 const DOMAIN_INTERESTS = [
   'Web Application Security',
@@ -314,32 +315,21 @@ export default function CyberXHiring() {
 
   /* ---------- UI ---------- */
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 md:p-12">
-      <main className="w-full max-w-4xl">
-
-        {/* Header / Logo */}
-        {/* Logo - Mobile: Centered Relative | Desktop: Top-Left Absolute */}
-        <div className="relative mx-auto mt-8 mb-4 w-72 h-24 md:absolute md:top-8 md:left-12 md:m-0 md:w-96 md:h-32 z-20">
-          <Image
-            src="/assets/logo.png"
-            alt="CyberX Logo"
-            fill
-            className="object-contain"
-            priority
-          />
-        </div>
+    <div className="min-h-screen">
+      <Navbar />
+      <main className="w-full max-w-4xl mx-auto px-4 sm:px-6 md:px-12 pt-24 sm:pt-28 pb-4 md:pb-12">
 
         {/* Center Header Text */}
-        <div className="flex flex-col items-center mb-16 pt-4 md:pt-16">
-          <h2 className="text-xl md:text-2xl font-poppins font-semibold text-white text-center mb-1 tracking-wide">
+        <div className="flex flex-col items-center mb-12 sm:mb-16 pt-4">
+          <h2 className="text-lg sm:text-xl md:text-2xl font-poppins font-semibold text-white text-center mb-1 tracking-wide">
             Become a Part of
           </h2>
-          <h1 className="text-3xl md:text-5xl font-poppins font-extrabold text-white text-center mb-4 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-5xl font-poppins font-extrabold text-white text-center mb-4 tracking-tight">
             <DecryptedText text="Cyber" />
             <span className="text-cyber-yellow"><DecryptedText text="X" /></span>
             <DecryptedText text=" Community" />
           </h1>
-          <p className="text-[#B3B3B3] text-center max-w-lg text-sm md:text-base font-medium">
+          <p className="text-[#B3B3B3] text-center max-w-lg text-sm md:text-base font-medium px-4">
             Connecting motivated learners and practitioners in cybersecurity.
           </p>
         </div>

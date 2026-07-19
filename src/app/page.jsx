@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import Navbar from "@/components/Navbar";
 
 /* ─── Animated counter hook ─── */
 function useCounter(target, duration = 2000) {
@@ -66,130 +67,30 @@ function FadeIn({ children, className = "", delay = 0 }) {
 
 /* ─── Floating particle background ─── */
 function ParticleField() {
+  const [particles, setParticles] = useState([]);
+
+  useEffect(() => {
+    const generated = Array.from({ length: 30 }).map((_, i) => ({
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      animationDelay: `${Math.random() * 8}s`,
+      animationDuration: `${6 + Math.random() * 8}s`,
+      width: `${2 + Math.random() * 3}px`,
+      height: `${2 + Math.random() * 3}px`,
+    }));
+    setParticles(generated);
+  }, []);
+
   return (
     <div className="particle-field">
-      {Array.from({ length: 30 }).map((_, i) => (
-        <div
-          key={i}
-          className="particle"
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            animationDelay: `${Math.random() * 8}s`,
-            animationDuration: `${6 + Math.random() * 8}s`,
-            width: `${2 + Math.random() * 3}px`,
-            height: `${2 + Math.random() * 3}px`,
-          }}
-        />
+      {particles.map((style, i) => (
+        <div key={i} className="particle" style={style} />
       ))}
     </div>
   );
 }
 
-/* ─── Navigation ─── */
-function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const links = [
-    { label: "Events", href: "/rsvp" },
-    { label: "CTFs", href: "/ctfs" },
-    { label: "Chapters", href: "/chapters" },
-    { label: "Hall of Fame", href: "/hall-of-fame" },
-    { label: "Media", href: "/media" },
-  ];
-
-  return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "navbar-scrolled"
-          : "navbar-top"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 group">
-          <Image
-            src="/assets/logo.png"
-            alt="CyberX Logo"
-            width={140}
-            height={40}
-            className="object-contain"
-            priority
-          />
-        </Link>
-
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-1">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="nav-link"
-            >
-              {link.label}
-            </Link>
-          ))}
-          <Link href="/apply" className="nav-cta">
-            Join Us
-          </Link>
-        </div>
-
-        {/* Mobile hamburger */}
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="md:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5"
-          aria-label="Toggle menu"
-        >
-          <span
-            className={`w-6 h-0.5 bg-white transition-all duration-300 ${
-              menuOpen ? "rotate-45 translate-y-2" : ""
-            }`}
-          />
-          <span
-            className={`w-6 h-0.5 bg-white transition-all duration-300 ${
-              menuOpen ? "opacity-0" : ""
-            }`}
-          />
-          <span
-            className={`w-6 h-0.5 bg-white transition-all duration-300 ${
-              menuOpen ? "-rotate-45 -translate-y-2" : ""
-            }`}
-          />
-        </button>
-      </div>
-
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div className="md:hidden mobile-menu">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="mobile-link"
-              onClick={() => setMenuOpen(false)}
-            >
-              {link.label}
-            </Link>
-          ))}
-          <Link
-            href="/apply"
-            className="nav-cta w-full text-center mt-2"
-            onClick={() => setMenuOpen(false)}
-          >
-            Join Us
-          </Link>
-        </div>
-      )}
-    </nav>
-  );
-}
+/* Navbar is now imported from @/components/Navbar */
 
 /* ─── Stats section ─── */
 const STATS = [

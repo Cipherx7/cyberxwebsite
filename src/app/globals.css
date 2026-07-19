@@ -149,27 +149,41 @@ body {
 }
 
 .mobile-menu {
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  padding: 1rem 1.5rem 1.5rem;
-  background: rgba(10, 10, 10, 0.95);
+  padding: 1.5rem;
+  background: rgba(10, 10, 10, 0.98);
   backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  overflow-y: auto;
+  z-index: 55;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .mobile-link {
   display: block;
-  padding: 0.75rem 1rem;
-  font-size: 0.9375rem;
+  padding: 1rem 1.25rem;
+  font-size: 1rem;
   font-weight: 500;
   color: #aaa;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   transition: all 0.2s ease;
   text-decoration: none;
 }
 
-.mobile-link:hover {
+.mobile-link:hover,
+.mobile-link:active {
   color: #fff;
   background: rgba(255, 255, 255, 0.05);
 }
@@ -432,13 +446,21 @@ body {
   backdrop-filter: blur(20px);
   border: 1px solid rgba(230, 194, 0, 0.15);
   box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.8), 0 0 40px rgba(230, 194, 0, 0.02);
-  border-radius: 1.5rem;
-  padding: 3rem;
+  border-radius: 1rem;
+  padding: 1.5rem;
   position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .event-banner-card {
+    border-radius: 1.5rem;
+    padding: 2rem;
+    gap: 2rem;
+  }
 }
 
 .event-banner-card::before {

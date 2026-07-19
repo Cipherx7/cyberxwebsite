@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
+import Navbar from '@/components/Navbar';
 
 function formatDateParts(dateStr) {
     const d = new Date(dateStr);
@@ -34,19 +35,20 @@ export default function ChapterDetailPage() {
 
     return (
         <div className="min-h-screen">
+            <Navbar />
 
             {/* ─── Hero Banner ─── */}
-            <div className="relative w-full h-72 md:h-80 lg:h-[420px] overflow-hidden">
+            <div className="relative w-full h-[320px] md:h-[360px] lg:h-[460px] overflow-hidden pt-20">
                 <Image src="/assets/chapter_banner.png" alt={`CyberX ${chapter.city}`} fill className="object-cover" priority />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0F0F0F] via-[#0F0F0F]/60 to-[#0F0F0F]/20"></div>
 
-                <nav className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between px-6 md:px-16 py-5">
-                    <Link href="/chapters" className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors">
+                <div className="absolute top-24 left-6 md:left-16 right-6 z-10 flex items-center justify-between">
+                    <Link href="/chapters" className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors bg-black/40 px-3 py-1.5 rounded-lg border border-white/10 backdrop-blur-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
                         All Chapters
                     </Link>
-                    {isActive && <span className="px-3 py-1 text-[11px] font-semibold rounded-full bg-green-500/15 text-green-400 border border-green-500/20 backdrop-blur-sm">● Active Chapter</span>}
-                </nav>
+                    {isActive && <span className="px-3 py-1.5 text-[11px] font-semibold rounded-lg bg-green-500/15 text-green-400 border border-green-500/20 backdrop-blur-sm">● Active Chapter</span>}
+                </div>
 
                 <div className="absolute bottom-10 left-6 md:left-16 z-10 max-w-2xl">
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-poppins font-extrabold text-white leading-[1.1] tracking-tight mb-3">

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Flag, Calendar, Globe, Trophy, Shield, Cpu, Lock } from "lucide-react";
+import Navbar from "@/components/Navbar";
 
 export default function CTFsPage() {
     return (
@@ -33,43 +34,14 @@ export default function CTFsPage() {
                 }
             `}</style>
 
+            <Navbar />
+
             {/* ═══════════ HERO ═══════════ */}
-            <header className="relative border-b border-[var(--color-cyber-border)] overflow-hidden">
+            <header className="relative border-b border-[var(--color-cyber-border)] overflow-hidden pt-20">
                 <div className="absolute inset-0 ctf-hero-grid pointer-events-none" />
                 <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-[var(--color-cyber-yellow)] rounded-full blur-[200px] opacity-[0.035] pointer-events-none" />
 
-                <div className="relative max-w-7xl mx-auto px-6 pt-8 pb-12">
-                    {/* Navigation */}
-                    <nav className="flex items-center justify-between mb-16">
-                        <Link
-                            href="/"
-                            className="text-sm text-[var(--color-cyber-text-muted)] hover:text-white transition-colors flex items-center gap-1.5"
-                        >
-                            <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                            >
-                                <path d="m15 18-6-6 6-6" />
-                            </svg>
-                            Home
-                        </Link>
-                        <div className="relative w-28 h-9">
-                            <Image
-                                src="/assets/logo.png"
-                                alt="CyberX"
-                                fill
-                                className="object-contain"
-                                priority
-                            />
-                        </div>
-                    </nav>
-
+                <div className="relative max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-12">
                     {/* Title Area */}
                     <div className="text-center max-w-2xl mx-auto">
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--color-cyber-yellow)]/15 bg-[var(--color-cyber-yellow)]/5 mb-6">
@@ -79,7 +51,7 @@ export default function CTFsPage() {
                             </span>
                         </div>
 
-                        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.1] mb-5 text-glow-yellow">
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] mb-5 text-glow-yellow">
                             Capture The <span className="text-[var(--color-cyber-yellow)] relative">Flag
                                 <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-[var(--color-cyber-yellow)] to-transparent" />
                             </span>

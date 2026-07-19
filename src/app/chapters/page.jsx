@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import Navbar from '@/components/Navbar';
 
 const STATS_TEMPLATE = [
     { label: 'Active Chapters', icon: '🏛️', key: 'active' },
@@ -36,42 +37,19 @@ export default function ChaptersPage() {
 
     return (
         <div className="min-h-screen">
-            <main className="w-full px-6 md:px-16 lg:px-24">
-
-                {/* Top bar: Logo + Login */}
-                <div className="flex items-center justify-between pt-8 pb-4">
-                    <div className="relative w-48 h-14 md:w-72 md:h-20">
-                        <a href="/">
-                            <Image
-                                src="/assets/logo.png"
-                                alt="CyberX Logo"
-                                fill
-                                className="object-contain"
-                                priority
-                            />
-                        </a>
-                    </div>
-                    <a
-                        href="/chapters/login"
-                        className="inline-flex items-center gap-2 px-5 py-2.5 border border-cyber-border rounded-lg text-sm font-medium text-cyber-text-secondary hover:text-white hover:border-cyber-yellow/40 transition-all"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-                        </svg>
-                        Login
-                    </a>
-                </div>
+            <Navbar />
+            <main className="w-full px-4 sm:px-6 md:px-16 lg:px-24 pt-20">
 
                 {/* Page Header */}
-                <div className="flex flex-col items-center mb-16 pt-4 md:pt-10">
+                <div className="flex flex-col items-center mb-12 sm:mb-16 pt-4 md:pt-10">
                     <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-cyber-border bg-cyber-card/50 mb-6">
                         <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
                         <span className="text-xs font-medium text-cyber-text-secondary tracking-wide uppercase">Expanding Nationwide</span>
                     </div>
-                    <h1 className="text-3xl md:text-5xl font-poppins font-extrabold text-white text-center mb-4 tracking-tight">
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-poppins font-extrabold text-white text-center mb-4 tracking-tight">
                         Our <DecryptedText text="Chapters" />
                     </h1>
-                    <p className="text-[#B3B3B3] text-center max-w-xl text-sm md:text-base font-medium leading-relaxed">
+                    <p className="text-[#B3B3B3] text-center max-w-xl text-sm md:text-base font-medium leading-relaxed px-4">
                         CyberX chapters are city-based communities bringing cybersecurity enthusiasts together for local meetups, workshops, and CTF competitions.
                     </p>
                 </div>

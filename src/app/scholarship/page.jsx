@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Navbar from "@/components/Navbar";
 
 export default function ScholarshipPage() {
     const [step, setStep] = useState(1);
@@ -57,20 +58,11 @@ export default function ScholarshipPage() {
             {/* Ambient glow */}
             <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-[var(--color-cyber-yellow)] rounded-full blur-[200px] opacity-[0.03] pointer-events-none" />
 
-            {/* ── NAV ── */}
-            <nav className="relative z-10 flex items-center justify-between px-6 md:px-10 py-6">
-                <a href="/" className="text-sm text-[var(--color-cyber-text-muted)] hover:text-white transition-colors flex items-center gap-1.5">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
-                    back
-                </a>
-                <div className="relative w-28 h-9">
-                    <Image src="/assets/logo.png" alt="CyberX" fill className="object-contain" priority />
-                </div>
-            </nav>
+            <Navbar />
 
             {/* ── CENTER ── */}
-            <div className="relative z-10 flex-1 flex flex-col justify-center items-center px-6 pb-16">
-                <h1 className="text-4xl sm:text-5xl md:text-6xl font-[var(--font-poppins)] font-semibold tracking-tight text-center mb-14" style={{ textShadow: '0 0 40px rgba(230,194,0,0.12)' }}>
+            <div className="relative z-10 flex-1 flex flex-col justify-center items-center px-4 sm:px-6 pb-16 pt-24 sm:pt-28">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-[var(--font-poppins)] font-semibold tracking-tight text-center mb-10 sm:mb-14" style={{ textShadow: '0 0 40px rgba(230,194,0,0.12)' }}>
                     Cyberx <span className="text-[var(--color-cyber-yellow)]">Scholarship</span>
                 </h1>
 
@@ -211,8 +203,8 @@ export default function ScholarshipPage() {
                                     <polyline points="20 6 9 17 4 12" />
                                 </svg>
                             </div>
-                            <h2 className="text-3xl font-[var(--font-poppins)] font-semibold text-white mb-4">Application Submitted</h2>
-                            <p className="text-[var(--color-cyber-text-secondary)] text-lg leading-relaxed mb-10">
+                            <h2 className="text-2xl sm:text-3xl font-[var(--font-poppins)] font-semibold text-white mb-4">Application Submitted</h2>
+                            <p className="text-[var(--color-cyber-text-secondary)] text-base sm:text-lg leading-relaxed mb-10">
                                 Thank you, <span className="text-[var(--color-cyber-yellow)] font-semibold">{formData.name || "Applicant"}</span>.<br />
                                 Your scholarship application has been received.
                             </p>

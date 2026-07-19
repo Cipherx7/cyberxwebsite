@@ -1,8 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { Calendar, Clock, Video, User, ArrowRight, ShieldCheck, CheckCircle2, MessageCircleQuestion, Globe, Linkedin } from 'lucide-react';
 import { detectLanguage, getTranslations, languageNames } from './translations';
+import Navbar from '@/components/Navbar';
 
 export default function RsvpPage() {
     const [lang, setLang] = useState('en');
@@ -73,21 +75,24 @@ export default function RsvpPage() {
 
     if (status === 'success') {
         return (
-            <div className="min-h-screen bg-black text-white flex items-center justify-center p-4">
-                <div className="max-w-md w-full bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-8 text-center space-y-6">
-                    <div className="w-20 h-20 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(34,197,94,0.3)]">
-                        <CheckCircle2 size={40} />
+            <div className="min-h-screen bg-black text-white">
+                <Navbar />
+                <div className="flex items-center justify-center min-h-screen p-4 pt-20">
+                    <div className="max-w-md w-full bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 sm:p-8 text-center space-y-6">
+                        <div className="w-20 h-20 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(34,197,94,0.3)]">
+                            <CheckCircle2 size={40} />
+                        </div>
+                        <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">{t.successTitle}</h2>
+                        <p className="text-zinc-400 text-sm sm:text-base">
+                            {t.successMessage} <span className="text-white font-medium">{formData.email}</span>.
+                        </p>
+                        <button 
+                            onClick={() => window.location.href = '/'}
+                            className="mt-8 px-6 py-3 bg-white text-black rounded-full font-medium hover:bg-zinc-200 transition-colors w-full"
+                        >
+                            {t.backHome}
+                        </button>
                     </div>
-                    <h2 className="text-3xl font-bold text-white tracking-tight">{t.successTitle}</h2>
-                    <p className="text-zinc-400">
-                        {t.successMessage} <span className="text-white font-medium">{formData.email}</span>.
-                    </p>
-                    <button 
-                        onClick={() => window.location.href = '/'}
-                        className="mt-8 px-6 py-3 bg-white text-black rounded-full font-medium hover:bg-zinc-200 transition-colors w-full"
-                    >
-                        {t.backHome}
-                    </button>
                 </div>
             </div>
         );
@@ -95,6 +100,8 @@ export default function RsvpPage() {
 
     return (
         <div className="min-h-screen bg-black text-white selection:bg-yellow-500/30">
+            <Navbar />
+
             {/* Background elements */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-yellow-500/10 blur-[120px]" />
@@ -102,14 +109,10 @@ export default function RsvpPage() {
                 <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20 mix-blend-overlay" />
             </div>
 
-            <div className="relative max-w-6xl mx-auto px-6 py-12 lg:py-20">
+            <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-12 lg:py-20 pt-24 sm:pt-28">
                 
                 {/* Header */}
-                <header className="mb-16 flex items-center justify-between">
-                    <h1 className="text-2xl font-bold tracking-tighter flex items-center gap-2">
-                        <span className="text-yellow-500">CYBER</span>X
-                        <span className="text-sm font-normal text-zinc-500 ml-2 tracking-normal border-l border-zinc-800 pl-4">{t.communityLabel}</span>
-                    </h1>
+                <header className="mb-10 sm:mb-16 flex justify-end">
 
                     {/* Language Switcher */}
                     <div className="relative">
@@ -119,7 +122,7 @@ export default function RsvpPage() {
                             aria-label="Change language"
                         >
                             <Globe size={16} className="text-yellow-500" />
-                            <span>{languageNames[lang]}</span>
+                            <span className="hidden sm:inline">{languageNames[lang]}</span>
                             <svg className={`w-3 h-3 transition-transform ${showLangMenu ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
                         </button>
 
@@ -149,35 +152,35 @@ export default function RsvpPage() {
                     </div>
                 </header>
 
-                <div className="grid lg:grid-cols-2 gap-16 items-start">
+                <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
                     
                     {/* Event Details Left Side */}
-                    <div className="space-y-10">
-                        <div className="space-y-6">
+                    <div className="space-y-8 sm:space-y-10">
+                        <div className="space-y-4 sm:space-y-6">
                             <div className="inline-flex items-center px-3 py-1 rounded-full border border-yellow-500/30 bg-yellow-500/10 text-yellow-500 text-sm font-medium">
                                 <span className="w-2 h-2 rounded-full bg-yellow-500 mr-2 animate-pulse" />
                                 {t.badge}
                             </div>
                             
-                            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight">
+                            <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold leading-[1.1] tracking-tight">
                                 {t.title} <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-yellow-200">{t.titleHighlight}</span>
                             </h2>
                             
-                            <p className="text-lg text-zinc-400 leading-relaxed max-w-xl">
+                            <p className="text-base sm:text-lg text-zinc-400 leading-relaxed max-w-xl">
                                 {t.description}
                             </p>
                         </div>
 
                         {/* Info Cards */}
-                        <div className="grid sm:grid-cols-2 gap-4">
-                            <div className="bg-zinc-900/50 backdrop-blur-md border border-zinc-800 rounded-2xl p-5 space-y-3 flex flex-col justify-between">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="bg-zinc-900/50 backdrop-blur-md border border-zinc-800 rounded-2xl p-4 sm:p-5 space-y-3 flex flex-col justify-between">
                                 <div className="space-y-3">
                                     <div className="w-10 h-10 bg-yellow-500/10 rounded-xl flex items-center justify-center text-yellow-500">
                                         <User size={20} />
                                     </div>
                                     <div>
                                         <p className="text-sm text-zinc-500 font-medium">{t.speakerLabel}</p>
-                                        <p className="text-white font-semibold text-lg">{t.speakerName}</p>
+                                        <p className="text-white font-semibold text-base sm:text-lg">{t.speakerName}</p>
                                         <p className="text-xs text-zinc-400 mt-1">{t.speakerRole}<br/>{t.speakerTitle}</p>
                                     </div>
                                 </div>
@@ -188,17 +191,17 @@ export default function RsvpPage() {
                                     className="inline-flex items-center gap-1.5 text-xs text-yellow-500 hover:text-yellow-400 font-semibold transition-colors mt-2"
                                 >
                                     <Linkedin size={12} />
-                                    <span>Speaker's LinkedIn</span>
+                                    <span>Speaker&apos;s LinkedIn</span>
                                 </a>
                             </div>
 
-                            <div className="bg-zinc-900/50 backdrop-blur-md border border-zinc-800 rounded-2xl p-5 space-y-3">
+                            <div className="bg-zinc-900/50 backdrop-blur-md border border-zinc-800 rounded-2xl p-4 sm:p-5 space-y-3">
                                 <div className="w-10 h-10 bg-yellow-500/10 rounded-xl flex items-center justify-center text-yellow-500">
                                     <Calendar size={20} />
                                 </div>
                                 <div>
                                     <p className="text-sm text-zinc-500 font-medium">{t.dateLabel}</p>
-                                    <p className="text-white font-semibold text-lg">{t.dateValue}</p>
+                                    <p className="text-white font-semibold text-base sm:text-lg">{t.dateValue}</p>
                                     <p className="text-xs text-zinc-400 mt-1">{t.timeValue}<br/>{t.timeAlt}</p>
                                 </div>
                             </div>
@@ -210,13 +213,13 @@ export default function RsvpPage() {
                         {/* Glow effect behind form */}
                         <div className="absolute inset-0 bg-gradient-to-tr from-yellow-500/20 to-transparent blur-3xl -z-10 rounded-3xl" />
                         
-                        <div className="bg-zinc-900/80 backdrop-blur-xl border border-zinc-800 rounded-3xl p-8 sm:p-10 shadow-2xl">
-                            <div className="mb-8">
-                                <h3 className="text-2xl font-bold mb-2">{t.formTitle}</h3>
+                        <div className="bg-zinc-900/80 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 sm:p-8 lg:p-10 shadow-2xl">
+                            <div className="mb-6 sm:mb-8">
+                                <h3 className="text-xl sm:text-2xl font-bold mb-2">{t.formTitle}</h3>
                                 <p className="text-zinc-400 text-sm">{t.formSubtitle}</p>
                             </div>
 
-                            <form onSubmit={handleSubmit} className="space-y-6">
+                            <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
                                 <div className="space-y-2">
                                     <label htmlFor="name" className="text-sm font-medium text-zinc-300">{t.nameLabel}</label>
                                     <input 
@@ -225,7 +228,7 @@ export default function RsvpPage() {
                                         name="name"
                                         value={formData.name}
                                         onChange={handleChange}
-                                        className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-500/50 transition-all"
+                                        className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-500/50 transition-all text-sm sm:text-base"
                                         placeholder={t.namePlaceholder}
                                         required
                                     />
@@ -239,14 +242,14 @@ export default function RsvpPage() {
                                         name="email"
                                         value={formData.email}
                                         onChange={handleChange}
-                                        className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-500/50 transition-all"
+                                        className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-500/50 transition-all text-sm sm:text-base"
                                         placeholder={t.emailPlaceholder}
                                         required
                                     />
                                 </div>
 
                                 <div className="space-y-2">
-                                    <div className="flex items-center gap-2">
+                                    <div className="flex items-center gap-2 flex-wrap">
                                         <label htmlFor="anonymousQuestion" className="text-sm font-medium text-zinc-300">{t.questionLabel}</label>
                                         <span className="text-xs text-zinc-600 bg-zinc-800 px-2 py-0.5 rounded-full">{t.questionOptional}</span>
                                     </div>
@@ -293,7 +296,7 @@ export default function RsvpPage() {
                                 <button 
                                     type="submit" 
                                     disabled={status === 'loading'}
-                                    className="w-full bg-yellow-500 hover:bg-yellow-400 text-black font-semibold rounded-xl px-6 py-4 flex items-center justify-center gap-2 transition-all disabled:opacity-70 disabled:cursor-not-allowed group mt-4 shadow-[0_0_20px_rgba(234,179,8,0.2)] hover:shadow-[0_0_30px_rgba(234,179,8,0.4)]"
+                                    className="w-full bg-yellow-500 hover:bg-yellow-400 text-black font-semibold rounded-xl px-6 py-3.5 sm:py-4 flex items-center justify-center gap-2 transition-all disabled:opacity-70 disabled:cursor-not-allowed group mt-4 shadow-[0_0_20px_rgba(234,179,8,0.2)] hover:shadow-[0_0_30px_rgba(234,179,8,0.4)]"
                                 >
                                     {status === 'loading' ? (
                                         <span className="flex items-center gap-2">
