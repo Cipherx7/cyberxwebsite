@@ -386,6 +386,78 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ============ UPCOMING EVENT ============ */}
+      <section className="event-section">
+        <div className="max-w-7xl mx-auto px-6">
+          <FadeIn>
+            <div className="section-header">
+              <span className="section-tag">Live Session</span>
+              <h2 className="section-title">
+                Learn from the <span className="text-gradient">Experts</span>
+              </h2>
+            </div>
+          </FadeIn>
+
+          <FadeIn delay={0.15}>
+            <div className="event-container">
+              <div className="event-banner-card">
+                <div className="event-banner-content">
+                  <span className="event-banner-badge">
+                    <span className="w-2 h-2 rounded-full bg-[var(--color-cyber-yellow)] animate-pulse" style={{ marginRight: '0.25rem' }} />
+                    Live Online Event
+                  </span>
+                  <h3 className="event-banner-title">
+                    How Investigators Find Anyone Online using OSINT
+                  </h3>
+                  <p className="event-banner-desc">
+                    What if the internet already contains the answers you&apos;re looking for? Join us as we reveal how investigators turn scattered public data into actionable intelligence.
+                  </p>
+                  
+                  <div className="event-banner-meta">
+                    <div className="event-meta-item">
+                      <div className="event-meta-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                      </div>
+                      <div className="event-meta-text">
+                        <span className="event-meta-label">Speaker</span>
+                        <span className="event-meta-val">Saad Sarraj (cybersudo)</span>
+                      </div>
+                    </div>
+
+                    <div className="event-meta-item">
+                      <div className="event-meta-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                      </div>
+                      <div className="event-meta-text">
+                        <span className="event-meta-label">Date & Time</span>
+                        <span className="event-meta-val">25th July | 3:00 PM IST</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="event-banner-footer">
+                  <Link href="/rsvp" className="btn-primary">
+                    <span>Reserve a Spot</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </FadeIn>
+        </div>
+      </section>
+
       {/* ============ FEATURES ============ */}
       <section className="features-section">
         <div className="max-w-7xl mx-auto px-6">

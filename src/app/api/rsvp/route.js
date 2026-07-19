@@ -13,6 +13,10 @@ export async function POST(req) {
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
         }
 
+        if (!email.toLowerCase().endsWith('@gmail.com')) {
+            return NextResponse.json({ error: 'Only @gmail.com email addresses are allowed' }, { status: 400 });
+        }
+
         // Save to MongoDB
         const newRsvp = await Rsvp.create({
             name,

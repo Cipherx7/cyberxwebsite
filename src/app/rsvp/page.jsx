@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Calendar, Clock, Video, User, ArrowRight, ShieldCheck, CheckCircle2, MessageCircleQuestion, Globe } from 'lucide-react';
+import { Calendar, Clock, Video, User, ArrowRight, ShieldCheck, CheckCircle2, MessageCircleQuestion, Globe, Linkedin } from 'lucide-react';
 import { detectLanguage, getTranslations, languageNames } from './translations';
 
 export default function RsvpPage() {
@@ -29,6 +29,11 @@ export default function RsvpPage() {
         
         if (!formData.name || !formData.email || !formData.privacyAccepted) {
             setErrorMessage(t.errorRequired);
+            return;
+        }
+
+        if (!formData.email.toLowerCase().endsWith('@gmail.com')) {
+            setErrorMessage(t.errorGmailOnly);
             return;
         }
 
@@ -165,15 +170,26 @@ export default function RsvpPage() {
 
                         {/* Info Cards */}
                         <div className="grid sm:grid-cols-2 gap-4">
-                            <div className="bg-zinc-900/50 backdrop-blur-md border border-zinc-800 rounded-2xl p-5 space-y-3">
-                                <div className="w-10 h-10 bg-yellow-500/10 rounded-xl flex items-center justify-center text-yellow-500">
-                                    <User size={20} />
+                            <div className="bg-zinc-900/50 backdrop-blur-md border border-zinc-800 rounded-2xl p-5 space-y-3 flex flex-col justify-between">
+                                <div className="space-y-3">
+                                    <div className="w-10 h-10 bg-yellow-500/10 rounded-xl flex items-center justify-center text-yellow-500">
+                                        <User size={20} />
+                                    </div>
+                                    <div>
+                                        <p className="text-sm text-zinc-500 font-medium">{t.speakerLabel}</p>
+                                        <p className="text-white font-semibold text-lg">{t.speakerName}</p>
+                                        <p className="text-xs text-zinc-400 mt-1">{t.speakerRole}<br/>{t.speakerTitle}</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p className="text-sm text-zinc-500 font-medium">{t.speakerLabel}</p>
-                                    <p className="text-white font-semibold text-lg">{t.speakerName}</p>
-                                    <p className="text-xs text-zinc-400 mt-1">{t.speakerRole}<br/>{t.speakerTitle}</p>
-                                </div>
+                                <a 
+                                    href="https://www.linkedin.com/in/saadsarraj/" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer" 
+                                    className="inline-flex items-center gap-1.5 text-xs text-yellow-500 hover:text-yellow-400 font-semibold transition-colors mt-2"
+                                >
+                                    <Linkedin size={12} />
+                                    <span>Speaker's LinkedIn</span>
+                                </a>
                             </div>
 
                             <div className="bg-zinc-900/50 backdrop-blur-md border border-zinc-800 rounded-2xl p-5 space-y-3">

@@ -51,6 +51,7 @@ const translations = {
 
         // Errors
         errorRequired: "Please fill out all fields and accept the privacy policy.",
+        errorGmailOnly: "Only @gmail.com email addresses are allowed.",
         errorNetwork: "Network error. Please try again later.",
         errorGeneric: "Something went wrong. Please try again.",
 
@@ -102,6 +103,7 @@ const translations = {
         loadingButton: "Wird verarbeitet...",
 
         errorRequired: "Bitte füllen Sie alle Felder aus und akzeptieren Sie die Datenschutzrichtlinie.",
+        errorGmailOnly: "Nur @gmail.com E-Mail-Adressen sind erlaubt.",
         errorNetwork: "Netzwerkfehler. Bitte versuchen Sie es später erneut.",
         errorGeneric: "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
 
@@ -152,6 +154,7 @@ const translations = {
         loadingButton: "प्रोसेसिंग...",
 
         errorRequired: "कृपया सभी फ़ील्ड भरें और गोपनीयता नीति स्वीकार करें।",
+        errorGmailOnly: "केवल @gmail.com ईमेल पते की अनुमति है।",
         errorNetwork: "नेटवर्क त्रुटि। कृपया बाद में पुनः प्रयास करें।",
         errorGeneric: "कुछ गलत हो गया। कृपया पुनः प्रयास करें।",
 
@@ -202,6 +205,7 @@ const translations = {
         loadingButton: "Traitement en cours...",
 
         errorRequired: "Veuillez remplir tous les champs et accepter la politique de confidentialité.",
+        errorGmailOnly: "Seules les adresses e-mail @gmail.com sont autorisées.",
         errorNetwork: "Erreur réseau. Veuillez réessayer plus tard.",
         errorGeneric: "Une erreur est survenue. Veuillez réessayer.",
 
@@ -252,6 +256,7 @@ const translations = {
         loadingButton: "Procesando...",
 
         errorRequired: "Por favor, completa todos los campos y acepta la política de privacidad.",
+        errorGmailOnly: "Solo se permiten direcciones de correo electrónico de @gmail.com.",
         errorNetwork: "Error de red. Por favor, inténtalo de nuevo más tarde.",
         errorGeneric: "Algo salió mal. Por favor, inténtalo de nuevo.",
 
