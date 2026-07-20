@@ -20,8 +20,8 @@ export default function PrivacyPolicy() {
             <div className="relative max-w-4xl mx-auto px-6 py-24 sm:py-32">
                 {/* Back Button */}
                 <div className="mb-8">
-                    <Link 
-                        href="/rsvp" 
+                    <Link
+                        href="/rsvp"
                         className="inline-flex items-center gap-2 text-zinc-400 hover:text-yellow-500 transition-colors text-sm font-medium group"
                     >
                         <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
@@ -125,7 +125,7 @@ export default function PrivacyPolicy() {
                             <h2 className="text-xl sm:text-2xl font-bold">4. Data Retention & Deletion</h2>
                         </div>
                         <p className="text-zinc-400 leading-relaxed text-sm pl-13">
-                            Your information is securely saved in our databases. We keep your data only as long as you wish to remain an active part of our community communications. If at any point you want to opt-out, you can click the unsubscribe links inside our emails or contact us at <a href="mailto:support@cyberx.community" className="text-yellow-500 hover:underline">support@cyberx.community</a> to have your personal data permanently removed.
+                            Your information is securely saved in our databases. We keep your data only as long as you wish to remain an active part of our community communications. If at any point you want to opt-out, you can click the unsubscribe links inside our emails or contact us at <a href="mailto:info@cyberx.org.in" className="text-yellow-500 hover:underline">info@cyberx.org.in</a> to have your personal data permanently removed.
                         </p>
                     </section>
                 </div>
