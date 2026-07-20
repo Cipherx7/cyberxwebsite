@@ -35,10 +35,7 @@ export default function RsvpPage() {
             return;
         }
 
-        if (!formData.email.toLowerCase().endsWith('@gmail.com')) {
-            setErrorMessage(t.errorGmailOnly);
-            return;
-        }
+
 
         setStatus('loading');
         setErrorMessage('');
@@ -354,7 +351,7 @@ export default function RsvpPage() {
                                         />
                                     </div>
                                     <label htmlFor="privacyAccepted" className="text-sm text-zinc-400 cursor-pointer select-none">
-                                        {t.privacyText} <a href="#" className="text-yellow-500 hover:underline">{t.privacyLink}</a> {t.privacyConsent}
+                                        {t.privacyText} <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-yellow-500 hover:underline">{t.privacyLink}</a> {t.privacyConsent}
                                     </label>
                                 </div>
 
