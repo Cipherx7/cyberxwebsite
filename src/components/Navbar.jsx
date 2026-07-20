@@ -70,7 +70,7 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
-          <Link href="/apply" className="nav-cta">
+          <Link href="/join" className="nav-cta">
             Join Us
           </Link>
         </div>
@@ -113,7 +113,7 @@ export default function Navbar() {
             </Link>
           ))}
           <Link
-            href="/apply"
+            href="/join"
             className="nav-cta w-full text-center mt-2"
             onClick={() => setMenuOpen(false)}
           >

@@ -263,7 +263,57 @@ const translations = {
         successTitle: "¡Estás en la lista!",
         successMessage:
             "Gracias por registrarte en la sesión de OSINT con Saad Sarraj. Hemos enviado una invitación de calendario a",
-        backHome: "Volver al inicio",
+    },
+
+    mr: {
+        communityLabel: "नाशिकचा सायबर सुरक्षा समुदाय",
+
+        badge: "थेट ऑनलाईन कार्यक्रम",
+
+        title: "तपासक ऑनलाईन कोणालाही कसे शोधतात",
+        titleHighlight: "OSINT",
+
+        description:
+            "काय इंटरनेटवर तुम्हाला हवी असलेली उत्तरे आधीच उपलब्ध आहेत? आमचे वक्ते सार्वजनिक डेटाचे कृतीयोग्य माहितीमध्ये रूपांतर कसे करतात हे पाहण्यासाठी आमच्यासोबत सामील व्हा.",
+
+        speakerLabel: "वक्ता",
+        speakerName: "Saad Sarraj",
+        speakerRole: "cybersudo.org चे संस्थापक",
+        speakerTitle: "OSINTCon वक्ता",
+
+        dateLabel: "तारीख आणि वेळ",
+        dateValue: "२५ जुलै",
+        timeValue: "दुपारी ३:०० वाजता IST",
+        timeAlt: "(११:३० AM CET)",
+
+        formTitle: "तुमची जागा निश्चित करा",
+        formSubtitle: "नोंदणी करा आणि कार्यक्रम जॉइनिंग लिंक मिळवा.",
+        nameLabel: "पूर्ण नाव",
+        namePlaceholder: "राम पाटील",
+        emailLabel: "ईमेल पत्ता",
+        emailPlaceholder: "ram@email.com",
+
+        questionLabel: "तुमचा प्रश्न अनामिकपणे विचारा",
+        questionOptional: "पर्यायी",
+        questionPlaceholder:
+            "वक्त्यासाठी काही प्रश्न आहे का? येथे लिहा — हा थेट सत्रादरम्यान अनामिकपणे विचारला जाईल.",
+
+        privacyText: "मी",
+        privacyLink: "गोपनीयता धोरणाशी",
+        privacyConsent: "सहमत आहे आणि कार्यक्रम अपडेट्स मिळवण्यास संमती देतो/देते.",
+
+        submitButton: "आता RSVP करा",
+        loadingButton: "प्रक्रिया सुरू आहे...",
+
+        errorRequired: "कृपया सर्व रकाने भरा आणि गोपनीयता धोरण स्वीकारा.",
+        errorGmailOnly: "फक्त @gmail.com ईमेल पत्त्यांना परवानगी आहे.",
+        errorNetwork: "नेटवर्क त्रुटी. कृपया नंतर पुन्हा प्रयत्न करा.",
+        errorGeneric: "काहीतरी चुकले. कृपया पुन्हा प्रयत्न करा.",
+
+        successTitle: "तुम्ही यादीत आहात!",
+        successMessage:
+            "साद सर्राज यांच्यासोबतच्या OSINT सत्रासाठी यशस्वी नोंदणी केल्याबद्दल धन्यवाद. आम्ही कॅलेंडर आमंत्रण पाठवले आहे: ",
+        backHome: "मुख्यपृष्ठावर परत जा",
     },
 };
 
@@ -274,6 +324,7 @@ export const languageNames = {
     hi: "हिन्दी",
     fr: "Français",
     es: "Español",
+    mr: "मराठी",
 };
 
 /**
