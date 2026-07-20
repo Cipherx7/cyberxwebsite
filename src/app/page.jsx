@@ -94,10 +94,10 @@ function ParticleField() {
 
 /* ─── Stats section ─── */
 const STATS = [
-  { value: 500, suffix: "+", label: "Community Members" },
-  { value: 25, suffix: "+", label: "Events Hosted" },
-  { value: 15, suffix: "+", label: "CTF Competitions" },
-  { value: 8, suffix: "", label: "City Chapters" },
+  { value: 2000, suffix: "+", label: "Community Members" },
+  { value: 11, suffix: "+", label: "Events Hosted" },
+  { value: 2, suffix: "+", label: "CTF Competitions" },
+  { value: 2, suffix: "", label: "City Chapters" },
 ];
 
 function StatCard({ value, suffix, label }) {
@@ -203,7 +203,7 @@ export default function HomePage() {
 
           <FadeIn delay={0.2}>
             <p className="hero-subtitle">
-              CyberX is a student-driven cybersecurity community building the
+              CyberX is a community-driven cybersecurity community building the
               next generation of security professionals through CTFs, workshops,
               open-source tools, and real-world collaboration.
             </p>
@@ -272,12 +272,12 @@ export default function HomePage() {
             <div className="section-header">
               <span className="section-tag">About Us</span>
               <h2 className="section-title">
-                Built by Students.{" "}
+                Built by Cybersecurity Enthusiasts.{" "}
                 <span className="text-gradient">Driven by Passion.</span>
               </h2>
               <p className="section-desc">
                 CyberX started as a small group of cybersecurity enthusiasts in
-                Nashik and has grown into a multi-city community of 500+ members.
+                Nashik and has grown into a multi-city community of 2000+ members.
                 We believe in learning by doing — whether it&apos;s cracking a CTF
                 challenge, building security tools, or mentoring the next
                 generation of ethical hackers.
@@ -397,7 +397,7 @@ export default function HomePage() {
                 <span className="text-gradient">Cybersecurity Journey?</span>
               </h2>
               <p className="cta-desc">
-                Join 500+ community members who are learning, building, and
+                Join 2000+ community members who are learning, building, and
                 growing together. No experience required — just curiosity.
               </p>
               <div className="cta-actions">
