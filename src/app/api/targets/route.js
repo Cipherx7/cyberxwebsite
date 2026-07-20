@@ -1,7 +1,9 @@
 import dbConnect from '../../../../lib/mongodb';
 import Target from '../../../../models/Target';
+import { verifyAdmin, unauthorizedResponse } from '../../../../lib/auth-utils';
 
 export async function GET(req) {
+    if (!await verifyAdmin(req)) return unauthorizedResponse();
     await dbConnect();
 
     try {
@@ -13,6 +15,7 @@ export async function GET(req) {
 }
 
 export async function POST(req) {
+    if (!await verifyAdmin(req)) return unauthorizedResponse();
     await dbConnect();
 
     try {

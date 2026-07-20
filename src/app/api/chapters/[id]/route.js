@@ -23,7 +23,17 @@ export async function PUT(request, { params }) {
             delete body.isArchived;
         }
 
-        const chapter = await Chapter.findByIdAndUpdate(id, body, { new: true });
+        // Whitelist allowed fields to prevent mass assignment
+        const allowedFields = ['city', 'state', 'status', 'lead', 'members', 'events',
+            'description', 'founded', 'linkedin', 'instagram', 'highlights', 'isArchived'];
+        const update = {};
+        for (const field of allowedFields) {
+            if (body[field] !== undefined) {
+                update[field] = body[field];
+            }
+        }
+
+        const chapter = await Chapter.findByIdAndUpdate(id, update, { new: true });
         if (!chapter) {
             return Response.json({ error: 'Chapter not found' }, { status: 404 });
         }

@@ -2,7 +2,9 @@ import dbConnect from '../../../../lib/mongodb';
 import Admin from '../../../../models/Admin';
 import { NextResponse } from 'next/server';
 
-export async function GET(request) {
+// POST /api/setup-admin — Create or reset admin (requires SETUP_SECRET header)
+// WARNING: This endpoint should be disabled in production after initial setup
+export async function POST(request) {
     // Security: Disable in production or require a setup secret
     const setupSecret = process.env.SETUP_SECRET;
     const authHeader = request.headers.get('x-setup-secret');

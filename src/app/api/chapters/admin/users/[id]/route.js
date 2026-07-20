@@ -1,14 +1,12 @@
 import dbConnect from '../../../../../../../lib/mongodb';
 import Admin from '../../../../../../../models/Admin';
 import { verifyAdminWithRole, unauthorizedResponse } from '../../../../../../../lib/auth-utils';
+import { randomBytes } from 'crypto';
 
-function generatePassword(length = 12) {
+function generatePassword(length = 16) {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*';
-    let password = '';
-    for (let i = 0; i < length; i++) {
-        password += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return password;
+    const bytes = randomBytes(length);
+    return Array.from(bytes, b => chars[b % chars.length]).join('');
 }
 
 // PUT /api/chapters/admin/users/[id] — Update user (change password, chapter, role, generate new password)
@@ -30,7 +28,10 @@ export async function PUT(request, { params }) {
             const newPassword = generatePassword();
             user.password = newPassword;
             await user.save();
-            return Response.json({ message: 'Password regenerated', generatedPassword: newPassword });
+            return Response.json(
+                { message: 'Password regenerated', generatedPassword: newPassword },
+                { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate', 'Pragma': 'no-cache' } }
+            );
         }
 
         // Change password manually

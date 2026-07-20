@@ -4,6 +4,11 @@ import { put } from '@vercel/blob';
 import { verifyAdmin, unauthorizedResponse } from '../../../../lib/auth-utils';
 import { sendApplicationConfirmationEmail } from '../../../../lib/mailer';
 
+// Escape special regex characters to prevent ReDoS/injection
+function escapeRegex(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 // Simple in-memory rate limiting store
 const rateLimitStore = new Map();
 
@@ -49,8 +54,9 @@ export async function POST(request) {
 
     const formData = await request.formData();
 
-    // Get client IP for rate limiting
-    const ip = request.headers.get('x-forwarded-for') ||
+    // Get client IP for rate limiting (first IP in x-forwarded-for chain)
+    const forwardedFor = request.headers.get('x-forwarded-for');
+    const ip = (forwardedFor ? forwardedFor.split(',')[0].trim() : null) ||
       request.headers.get('x-real-ip') ||
       'unknown';
 
@@ -114,21 +120,35 @@ export async function POST(request) {
     // Handle resume file upload
     let resumePath = null;
     if (resumeFile && resumeFile.size > 0) {
-      /* 
-         VERCEL BLOB INTEGRATION 
-         Replaces local fs.writeFile which doesn't work in serverless
-      */
+      // Validate file size (max 5MB)
+      if (resumeFile.size > 5 * 1024 * 1024) {
+        return Response.json(
+          { error: 'Resume file size must be under 5MB' },
+          { status: 400 }
+        );
+      }
+
+      // Validate file type
+      const allowedTypes = ['application/pdf', 'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+      if (!allowedTypes.includes(resumeFile.type)) {
+        return Response.json(
+          { error: 'Resume must be a PDF, DOC, or DOCX file' },
+          { status: 400 }
+        );
+      }
+
       const timestamp = Date.now();
-      // Sanitize email for filename
       const safeEmail = data.email.replace(/[^a-zA-Z0-9]/g, '_');
       const filename = `resumes/${safeEmail}_${timestamp}.pdf`;
 
-      // Upload to Vercel Blob
+      // Upload to Vercel Blob with restricted access
       const blob = await put(filename, resumeFile, {
         access: 'public',
+        addRandomSuffix: true,
       });
 
-      resumePath = blob.url; // Store the public URL
+      resumePath = blob.url;
     }
 
     // Map new form fields directly to schema
@@ -252,12 +272,13 @@ export async function GET(request) {
     if (status) filter.status = status;
 
     if (search) {
+      const safeSearch = escapeRegex(search);
       filter.$or = [
-        { fullName: { $regex: search, $options: 'i' } },
-        { email: { $regex: search, $options: 'i' } },
-        { whatsappNumber: { $regex: search, $options: 'i' } },
-        { organizationName: { $regex: search, $options: 'i' } },
-        { statusDescription: { $regex: search, $options: 'i' } }
+        { fullName: { $regex: safeSearch, $options: 'i' } },
+        { email: { $regex: safeSearch, $options: 'i' } },
+        { whatsappNumber: { $regex: safeSearch, $options: 'i' } },
+        { organizationName: { $regex: safeSearch, $options: 'i' } },
+        { statusDescription: { $regex: safeSearch, $options: 'i' } }
       ];
     }
 

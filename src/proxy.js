@@ -68,6 +68,7 @@ function addSecurityHeaders(response) {
   response.headers.set('X-Frame-Options', 'DENY');
   response.headers.set('X-XSS-Protection', '1; mode=block');
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
   return response;
 }
 
@@ -100,6 +101,31 @@ export async function proxy(req) {
 
   // 3. Handle API routes
   if (pathname.startsWith('/api')) {
+    // CSRF protection: validate Origin header on state-changing requests
+    if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) {
+      const origin = req.headers.get('origin');
+      const host = req.headers.get('host');
+      if (origin) {
+        try {
+          const originHost = new URL(origin).host;
+          if (originHost !== host) {
+            const response = NextResponse.json(
+              { error: 'CSRF validation failed' },
+              { status: 403 }
+            );
+            return addSecurityHeaders(response);
+          }
+        } catch {
+          // Invalid origin header
+          const response = NextResponse.json(
+            { error: 'Invalid origin' },
+            { status: 403 }
+          );
+          return addSecurityHeaders(response);
+        }
+      }
+    }
+
     // Check if this is a protected API route
     if (isProtectedApiRoute(pathname, method)) {
       if (!isAuthenticated) {

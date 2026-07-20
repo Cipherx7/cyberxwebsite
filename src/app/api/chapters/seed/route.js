@@ -1,8 +1,12 @@
 import dbConnect from '../../../../../lib/mongodb';
 import Chapter from '../../../../../models/Chapter';
+import { verifyAdminWithRole, unauthorizedResponse } from '../../../../../lib/auth-utils';
 
 // POST /api/chapters/seed — Seed initial chapter data
-export async function POST() {
+export async function POST(request) {
+    const auth = await verifyAdminWithRole(request);
+    if (!auth || auth.role !== 'super_admin') return unauthorizedResponse();
+
     try {
         await dbConnect();
 

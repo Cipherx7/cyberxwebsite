@@ -41,14 +41,20 @@ export async function PUT(request, { params }) {
     await dbConnect();
 
     const { id } = await params;
-    const updateData = await request.json();
+    const body = await request.json();
+
+    // Whitelist only admin-modifiable fields (prevent mass assignment)
+    const allowedFields = ['status', 'adminRemarks', 'feedback'];
+    const updateData = { lastUpdated: new Date() };
+    for (const field of allowedFields) {
+        if (body[field] !== undefined) {
+            updateData[field] = body[field];
+        }
+    }
 
     const application = await Application.findByIdAndUpdate(
       id,
-      {
-        ...updateData,
-        lastUpdated: new Date()
-      },
+      updateData,
       { new: true, runValidators: true }
     );
 

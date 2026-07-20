@@ -3,6 +3,36 @@ import dbConnect from '../../../../lib/mongodb';
 import Rsvp from '../../../../models/Rsvp';
 import { sendRsvpEmail } from '../../../../lib/mailer';
 
+// Rate limiting for RSVP endpoint
+const rsvpLimiter = new Map();
+
+function checkRsvpRateLimit(ip) {
+    const now = Date.now();
+    const windowMs = 10 * 60 * 1000; // 10 minutes
+    const maxRequests = 3; // 3 RSVPs per 10 min per IP
+
+    if (!rsvpLimiter.has(ip)) {
+        rsvpLimiter.set(ip, { count: 1, resetTime: now + windowMs });
+        return true;
+    }
+    const record = rsvpLimiter.get(ip);
+    if (now > record.resetTime) {
+        rsvpLimiter.set(ip, { count: 1, resetTime: now + windowMs });
+        return true;
+    }
+    if (record.count >= maxRequests) return false;
+    record.count++;
+    return true;
+}
+
+// Cleanup old entries periodically
+setInterval(() => {
+    const now = Date.now();
+    for (const [ip, record] of rsvpLimiter.entries()) {
+        if (now > record.resetTime) rsvpLimiter.delete(ip);
+    }
+}, 60000);
+
 export async function POST(req) {
     try {
         await dbConnect();
@@ -12,6 +42,27 @@ export async function POST(req) {
 
         if (!name || !email || !privacyAccepted) {
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+        }
+
+        // Rate limit check
+        const forwardedFor = req.headers.get('x-forwarded-for');
+        const ip = (forwardedFor ? forwardedFor.split(',')[0].trim() : null) ||
+            req.headers.get('x-real-ip') || 'unknown';
+
+        if (!checkRsvpRateLimit(ip)) {
+            return NextResponse.json(
+                { error: 'Too many registrations. Please try again later.' },
+                { status: 429 }
+            );
+        }
+
+        // Check for duplicate email registration
+        const existingRsvp = await Rsvp.findOne({ email: email.toLowerCase() });
+        if (existingRsvp) {
+            return NextResponse.json(
+                { error: 'This email is already registered for this event.' },
+                { status: 409 }
+            );
         }
 
 

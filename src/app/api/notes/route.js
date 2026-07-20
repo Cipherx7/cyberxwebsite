@@ -1,8 +1,10 @@
 import dbConnect from '../../../../lib/mongodb';
 import Note from '../../../../models/Note';
 import { processTerminalOutput } from '../../../../lib/gemini';
+import { verifyAdmin, unauthorizedResponse } from '../../../../lib/auth-utils';
 
 export async function GET(req) {
+    if (!await verifyAdmin(req)) return unauthorizedResponse();
     await dbConnect();
 
     const { searchParams } = new URL(req.url);
@@ -13,13 +15,15 @@ export async function GET(req) {
         const notes = await Note.find(query).sort({ createdAt: -1 });
         return Response.json({ success: true, data: notes });
     } catch (error) {
-        return Response.json({ success: false, error: error.message }, { status: 400 });
+        console.error('Error fetching notes:', error);
+        return Response.json({ success: false, error: 'Failed to fetch notes' }, { status: 400 });
     }
 }
 
 import { put } from '@vercel/blob';
 
 export async function POST(req) {
+    if (!await verifyAdmin(req)) return unauthorizedResponse();
     await dbConnect();
 
     try {
@@ -47,9 +51,9 @@ export async function POST(req) {
             mimeType = file.type;
         }
 
-        // Process with Gemini AI
-        const apiKey = req.headers.get('x-gemini-api-key');
-        const modelName = req.headers.get('x-gemini-model') || 'gemini-2.0-flash';
+        // Process with Gemini AI (uses server-side key only)
+        const apiKey = null;
+        const modelName = 'gemini-2.0-flash';
         const aiResult = await processTerminalOutput(content, imageBuffer, mimeType, apiKey, modelName);
 
         // Create Note
@@ -65,12 +69,13 @@ export async function POST(req) {
 
         return Response.json({ success: true, data: note }, { status: 201 });
     } catch (error) {
-        console.error("Error in POST /api/notes:", error);
-        return Response.json({ success: false, error: error.message }, { status: 400 });
+        console.error('Error in POST /api/notes:', error);
+        return Response.json({ success: false, error: 'Failed to create note' }, { status: 400 });
     }
 }
 
 export async function PUT(req) {
+    if (!await verifyAdmin(req)) return unauthorizedResponse();
     await dbConnect();
 
     try {
@@ -98,9 +103,9 @@ export async function PUT(req) {
             mimeType = file.type;
         }
 
-        // Process with Gemini AI for new title and summary
-        const apiKey = req.headers.get('x-gemini-api-key');
-        const modelName = req.headers.get('x-gemini-model') || 'gemini-2.0-flash';
+        // Process with Gemini AI (uses server-side key only)
+        const apiKey = null;
+        const modelName = 'gemini-2.0-flash';
 
         const aiResult = await processTerminalOutput(content, imageBuffer, mimeType, apiKey, modelName);
 
@@ -128,12 +133,13 @@ export async function PUT(req) {
 
         return Response.json({ success: true, data: updatedNote });
     } catch (error) {
-        console.error("Error in PUT /api/notes:", error);
-        return Response.json({ success: false, error: error.message }, { status: 400 });
+        console.error('Error in PUT /api/notes:', error);
+        return Response.json({ success: false, error: 'Failed to update note' }, { status: 400 });
     }
 }
 
 export async function DELETE(req) {
+    if (!await verifyAdmin(req)) return unauthorizedResponse();
     await dbConnect();
 
     const { searchParams } = new URL(req.url);
@@ -152,6 +158,7 @@ export async function DELETE(req) {
 
         return Response.json({ success: true, data: deletedNote });
     } catch (error) {
-        return Response.json({ success: false, error: error.message }, { status: 400 });
+        console.error('Error deleting note:', error);
+        return Response.json({ success: false, error: 'Failed to delete note' }, { status: 400 });
     }
 }

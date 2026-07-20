@@ -3,14 +3,12 @@ import Admin from '../../../../../../models/Admin';
 import Chapter from '../../../../../../models/Chapter';
 import { verifyAdminWithRole, unauthorizedResponse } from '../../../../../../lib/auth-utils';
 import bcrypt from 'bcryptjs';
+import { randomBytes } from 'crypto';
 
-function generatePassword(length = 12) {
+function generatePassword(length = 16) {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*';
-    let password = '';
-    for (let i = 0; i < length; i++) {
-        password += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return password;
+    const bytes = randomBytes(length);
+    return Array.from(bytes, b => chars[b % chars.length]).join('');
 }
 
 // GET /api/chapters/admin/users — List all chapter-related users
@@ -78,8 +76,14 @@ export async function POST(request) {
                 chapterId: user.chapterId
             },
             generatedPassword,
-            message: 'User created successfully. Share the password securely.'
-        }, { status: 201 });
+            message: 'User created successfully. Share the password securely and discard after sharing.'
+        }, {
+            status: 201,
+            headers: {
+                'Cache-Control': 'no-store, no-cache, must-revalidate',
+                'Pragma': 'no-cache'
+            }
+        });
     } catch (error) {
         console.error('Error creating user:', error);
         return Response.json({ error: 'Failed to create user' }, { status: 500 });
