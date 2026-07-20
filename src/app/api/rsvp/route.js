@@ -66,7 +66,7 @@ export async function POST(req) {
         }
 
 
-        // Call the external partner RSVP API first
+        // Call the external partner RSVP API (non-blocking — skip on error)
         let qrCode = '';
         try {
             const partnerRes = await fetch('https://team.cyberx.org.in/api/public/events/6a5c5e3e78abca7e38b77975/rsvp', {
@@ -77,18 +77,15 @@ export async function POST(req) {
 
             if (!partnerRes.ok) {
                 const partnerError = await partnerRes.json().catch(() => ({}));
-                return NextResponse.json({
-                    error: partnerError.message || 'The registration partner API returned an error.'
-                }, { status: partnerRes.status });
+                console.warn('Partner API returned error (skipping):', partnerRes.status, partnerError.message || 'Unknown error');
+                // Continue without QR code — don't abort the registration
+            } else {
+                const partnerData = await partnerRes.json();
+                qrCode = partnerData.registration?.qrCode || '';
             }
-
-            const partnerData = await partnerRes.json();
-            qrCode = partnerData.registration?.qrCode || '';
         } catch (partnerFetchError) {
-            console.error('Failed calling external RSVP partner API:', partnerFetchError);
-            return NextResponse.json({
-                error: 'Unable to connect to the external RSVP partner API. Please try again.'
-            }, { status: 502 });
+            console.error('Failed calling external RSVP partner API (skipping):', partnerFetchError.message);
+            // Non-blocking: continue with MongoDB save and webhook
         }
 
         // Save to MongoDB
