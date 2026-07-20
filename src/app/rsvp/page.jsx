@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { Calendar, Clock, Video, User, ArrowRight, ShieldCheck, CheckCircle2, MessageCircleQuestion, Globe, Linkedin, ArrowDown, HelpCircle, Key, Lock, Eye } from 'lucide-react';
+import { Calendar, Clock, Video, User, ArrowRight, ShieldCheck, CheckCircle2, MessageCircleQuestion, Globe, Linkedin } from 'lucide-react';
 import { detectLanguage, getTranslations, languageNames } from './translations';
 import Navbar from '@/components/Navbar';
 
@@ -14,8 +14,6 @@ export default function RsvpPage() {
     const [rsvpDetails, setRsvpDetails] = useState(null);
     const [status, setStatus] = useState('idle'); // idle, loading, success, error
     const [errorMessage, setErrorMessage] = useState('');
-
-    const rsvpFormRef = useRef(null);
 
     useEffect(() => {
         const detected = detectLanguage();
@@ -29,10 +27,6 @@ export default function RsvpPage() {
         setShowLangMenu(false);
     };
 
-    const scrollToForm = () => {
-        rsvpFormRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         
@@ -40,6 +34,8 @@ export default function RsvpPage() {
             setErrorMessage(t.errorRequired);
             return;
         }
+
+
 
         setStatus('loading');
         setErrorMessage('');
@@ -182,10 +178,12 @@ export default function RsvpPage() {
                 <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20 mix-blend-overlay" />
             </div>
 
-            <div className="relative max-w-5xl mx-auto px-6 py-12 lg:py-20 pt-24 sm:pt-28">
+            <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-12 lg:py-20 pt-24 sm:pt-28">
                 
-                {/* Header / Language Switcher */}
-                <header className="mb-12 flex justify-end">
+                {/* Header */}
+                <header className="mb-10 sm:mb-16 flex justify-end">
+
+                    {/* Language Switcher */}
                     <div className="relative">
                         <button
                             onClick={() => setShowLangMenu(!showLangMenu)}
@@ -223,126 +221,69 @@ export default function RsvpPage() {
                     </div>
                 </header>
 
-                {/* STEP 1: UPCOMING EVENT SPOTLIGHT HERO */}
-                <div className="space-y-12">
-                    <section className="text-center max-w-3xl mx-auto space-y-6">
-                        <div className="inline-flex items-center px-3.5 py-1.5 rounded-full border border-yellow-500/30 bg-yellow-500/10 text-yellow-500 text-xs font-semibold uppercase tracking-wider">
-                            🔥 {t.badge}
+                <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+                    
+                    {/* Event Details Left Side */}
+                    <div className="space-y-8 sm:space-y-10">
+                        <div className="space-y-4 sm:space-y-6">
+                            <div className="inline-flex items-center px-3 py-1 rounded-full border border-yellow-500/30 bg-yellow-500/10 text-yellow-500 text-sm font-medium">
+                                <span className="w-2 h-2 rounded-full bg-yellow-500 mr-2 animate-pulse" />
+                                {t.badge}
+                            </div>
+                            
+                            <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold leading-[1.1] tracking-tight">
+                                {t.title} <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-yellow-200">{t.titleHighlight}</span>
+                            </h2>
+                            
+                            <p className="text-base sm:text-lg text-zinc-400 leading-relaxed max-w-xl">
+                                {t.description}
+                            </p>
                         </div>
-                        
-                        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-tight">
-                            {t.title} <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-yellow-200">{t.titleHighlight}</span>
-                        </h1>
-                        
-                        <p className="text-zinc-400 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
-                            {t.description}
-                        </p>
 
-                        <div className="pt-4 flex justify-center">
-                            <button
-                                onClick={scrollToForm}
-                                className="px-8 py-4 bg-yellow-500 hover:bg-yellow-400 text-black font-bold rounded-full flex items-center gap-2.5 transition-all shadow-[0_0_20px_rgba(234,179,8,0.25)] hover:shadow-[0_0_30px_rgba(234,179,8,0.45)] hover:scale-105"
-                            >
-                                Register & RSVP Now
-                                <ArrowDown size={16} />
-                            </button>
-                        </div>
-                    </section>
+                        {/* Info Cards */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="bg-zinc-900/50 backdrop-blur-md border border-zinc-800 rounded-2xl p-4 sm:p-5 space-y-3 flex flex-col justify-between">
+                                <div className="space-y-3">
+                                    <div className="w-10 h-10 bg-yellow-500/10 rounded-xl flex items-center justify-center text-yellow-500">
+                                        <User size={20} />
+                                    </div>
+                                    <div>
+                                        <p className="text-sm text-zinc-500 font-medium">{t.speakerLabel}</p>
+                                        <p className="text-white font-semibold text-base sm:text-lg">{t.speakerName}</p>
+                                        <p className="text-xs text-zinc-400 mt-1">{t.speakerRole}<br/>{t.speakerTitle}</p>
+                                    </div>
+                                </div>
+                                <a 
+                                    href="https://www.linkedin.com/in/saadsarraj/" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer" 
+                                    className="inline-flex items-center gap-1.5 text-xs text-yellow-500 hover:text-yellow-400 font-semibold transition-colors mt-2"
+                                >
+                                    <Linkedin size={12} />
+                                    <span>Speaker&apos;s LinkedIn</span>
+                                </a>
+                            </div>
 
-                    {/* EVENT INFO CARDS */}
-                    <section className="grid sm:grid-cols-2 gap-6 max-w-3xl mx-auto pt-6">
-                        {/* Speaker info */}
-                        <div className="bg-zinc-900/40 backdrop-blur-md border border-zinc-800 rounded-2xl p-6 flex flex-col justify-between hover:border-zinc-700 transition-colors">
-                            <div className="space-y-4">
+                            <div className="bg-zinc-900/50 backdrop-blur-md border border-zinc-800 rounded-2xl p-4 sm:p-5 space-y-3">
                                 <div className="w-10 h-10 bg-yellow-500/10 rounded-xl flex items-center justify-center text-yellow-500">
-                                    <User size={20} />
+                                    <Calendar size={20} />
                                 </div>
                                 <div>
-                                    <p className="text-xs text-zinc-500 font-semibold uppercase tracking-wider">{t.speakerLabel}</p>
-                                    <h3 className="text-white font-bold text-lg mt-0.5">{t.speakerName}</h3>
-                                    <p className="text-xs text-zinc-450 mt-1 leading-relaxed">
-                                        {t.speakerRole} <br /> {t.speakerTitle}
-                                    </p>
+                                    <p className="text-sm text-zinc-500 font-medium">{t.dateLabel}</p>
+                                    <p className="text-white font-semibold text-base sm:text-lg">{t.dateValue}</p>
+                                    <p className="text-xs text-zinc-400 mt-1">{t.timeValue}<br/>{t.timeAlt}</p>
                                 </div>
                             </div>
-                            <a 
-                                href="https://www.linkedin.com/in/saadsarraj/" 
-                                target="_blank" 
-                                rel="noopener noreferrer" 
-                                className="inline-flex items-center gap-1.5 text-xs text-yellow-500 hover:text-yellow-400 font-semibold transition-colors mt-6"
-                            >
-                                <Linkedin size={12} />
-                                <span>Speaker&apos;s LinkedIn</span>
-                            </a>
                         </div>
+                    </div>
 
-                        {/* Date and Time info */}
-                        <div className="bg-zinc-900/40 backdrop-blur-md border border-zinc-800 rounded-2xl p-6 space-y-4 hover:border-zinc-700 transition-colors">
-                            <div className="w-10 h-10 bg-yellow-500/10 rounded-xl flex items-center justify-center text-yellow-500">
-                                <Calendar size={20} />
-                            </div>
-                            <div>
-                                <p className="text-xs text-zinc-500 font-semibold uppercase tracking-wider">{t.dateLabel}</p>
-                                <h3 className="text-white font-bold text-lg mt-0.5">{t.dateValue}</h3>
-                                <p className="text-xs text-zinc-450 mt-1 leading-relaxed">
-                                    {t.timeValue} <br /> {t.timeAlt}
-                                </p>
-                            </div>
-                        </div>
-                    </section>
-
-                    {/* KEY TOPICS SECTION */}
-                    <section className="bg-zinc-900/20 border border-zinc-900 rounded-3xl p-8 max-w-4xl mx-auto space-y-8">
-                        <div className="text-center space-y-2">
-                            <h2 className="text-xl sm:text-2xl font-bold">What We Will Cover</h2>
-                            <p className="text-xs text-zinc-550">Overview of the core syllabus for this OSINT briefing</p>
-                        </div>
-                        <div className="grid md:grid-cols-2 gap-6">
-                            <div className="flex gap-3">
-                                <div className="w-8 h-8 bg-zinc-900 border border-zinc-800 text-yellow-500 rounded-lg flex items-center justify-center shrink-0">
-                                    <Eye size={16} />
-                                </div>
-                                <div className="space-y-1">
-                                    <h4 className="font-semibold text-sm text-zinc-200">Digital Footprints</h4>
-                                    <p className="text-xs text-zinc-450 leading-relaxed">Understand how data aggregates online and where passive information resides across the web.</p>
-                                </div>
-                            </div>
-                            <div className="flex gap-3">
-                                <div className="w-8 h-8 bg-zinc-900 border border-zinc-800 text-yellow-500 rounded-lg flex items-center justify-center shrink-0">
-                                    <Key size={16} />
-                                </div>
-                                <div className="space-y-1">
-                                    <h4 className="font-semibold text-sm text-zinc-200">Search Operators</h4>
-                                    <p className="text-xs text-zinc-450 leading-relaxed">Learn target search queries, dorks, and filters to unmask databases and hidden records.</p>
-                                </div>
-                            </div>
-                            <div className="flex gap-3">
-                                <div className="w-8 h-8 bg-zinc-900 border border-zinc-800 text-yellow-500 rounded-lg flex items-center justify-center shrink-0">
-                                    <HelpCircle size={16} />
-                                </div>
-                                <div className="space-y-1">
-                                    <h4 className="font-semibold text-sm text-zinc-200">OSINT Toolkits</h4>
-                                    <p className="text-xs text-zinc-450 leading-relaxed">Live walkthroughs of key investigative tools utilized by cybersecurity intelligence professionals.</p>
-                                </div>
-                            </div>
-                            <div className="flex gap-3">
-                                <div className="w-8 h-8 bg-zinc-900 border border-zinc-800 text-yellow-500 rounded-lg flex items-center justify-center shrink-0">
-                                    <Lock size={16} />
-                                </div>
-                                <div className="space-y-1">
-                                    <h4 className="font-semibold text-sm text-zinc-200">OpSec & Privacy</h4>
-                                    <p className="text-xs text-zinc-450 leading-relaxed">Defensive strategies to harden your digital parameters and mitigate tracking vector risks.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    {/* STEP 2: RSVP REGISTRATION FORM */}
-                    <section ref={rsvpFormRef} className="relative pt-12 scroll-mt-24 max-w-2xl mx-auto">
-                        <div className="absolute inset-0 bg-gradient-to-tr from-yellow-500/10 to-transparent blur-3xl -z-10 rounded-3xl" />
+                    {/* RSVP Form Right Side */}
+                    <div className="relative">
+                        {/* Glow effect behind form */}
+                        <div className="absolute inset-0 bg-gradient-to-tr from-yellow-500/20 to-transparent blur-3xl -z-10 rounded-3xl" />
                         
                         <div className="bg-zinc-900/80 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 sm:p-8 lg:p-10 shadow-2xl">
-                            <div className="mb-6 sm:mb-8 text-center">
+                            <div className="mb-6 sm:mb-8">
                                 <h3 className="text-xl sm:text-2xl font-bold mb-2">{t.formTitle}</h3>
                                 <p className="text-zinc-400 text-sm">{t.formSubtitle}</p>
                             </div>
@@ -379,7 +320,7 @@ export default function RsvpPage() {
                                 <div className="space-y-2">
                                     <div className="flex items-center gap-2 flex-wrap">
                                         <label htmlFor="anonymousQuestion" className="text-sm font-medium text-zinc-300">{t.questionLabel}</label>
-                                        <span className="text-xs text-zinc-650 bg-zinc-800 px-2 py-0.5 rounded-full">{t.questionOptional}</span>
+                                        <span className="text-xs text-zinc-600 bg-zinc-800 px-2 py-0.5 rounded-full">{t.questionOptional}</span>
                                     </div>
                                     <div className="relative">
                                         <div className="absolute top-3 left-4 text-zinc-600">
@@ -443,7 +384,7 @@ export default function RsvpPage() {
                                 </button>
                             </form>
                         </div>
-                    </section>
+                    </div>
                 </div>
             </div>
         </div>
