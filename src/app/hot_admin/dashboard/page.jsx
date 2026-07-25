@@ -208,14 +208,30 @@ export default function AdminDashboard() {
             <input type="text" placeholder="Search applications..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full bg-[#1C1C1C] border border-[#2A2A2A] rounded-lg py-2 px-4 text-sm text-[#F2F2F2] placeholder-[#555] focus:outline-none focus:border-[#E6C200]/50 transition-colors" />
           </div>
-          <button onClick={handleLogout} className="text-sm text-[#9A9A9A] hover:text-[#F2F2F2] transition-colors cursor-pointer">Sign out</button>
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={() => router.push('/rsvp/entries')} 
+              className="bg-[#E6C200]/10 hover:bg-[#E6C200]/20 text-[#E6C200] border border-[#E6C200]/30 text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer"
+            >
+              📅 RSVP Entries
+            </button>
+            <button onClick={handleLogout} className="text-sm text-[#9A9A9A] hover:text-[#F2F2F2] transition-colors cursor-pointer">Sign out</button>
+          </div>
         </div>
       </header>
 
       <main className="max-w-[1400px] mx-auto px-6 py-8">
-        <div className="mb-8">
-          <h2 className="text-2xl font-semibold text-[#F2F2F2]">Applicants Management</h2>
-          <p className="text-[#9A9A9A] text-sm mt-1">Screening and managing potential CyberX candidates.</p>
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h2 className="text-2xl font-semibold text-[#F2F2F2]">Applicants Management</h2>
+            <p className="text-[#9A9A9A] text-sm mt-1">Screening and managing potential CyberX candidates.</p>
+          </div>
+          <button 
+            onClick={() => router.push('/rsvp/entries')}
+            className="bg-[#E6C200] hover:bg-[#d4b200] text-black font-semibold px-4 py-2 rounded-lg text-sm transition-all shadow-md flex items-center gap-2 cursor-pointer self-start sm:self-auto"
+          >
+            <span>View RSVP Entries &rarr;</span>
+          </button>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-10">
