@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
+    "@napi-rs/canvas": "^1.0.2",
+    "@napi-rs/canvas-linux-x64-gnu": "^1.0.2",
     "@vercel/blob": "^2.0.1",
     "bcryptjs": "^3.0.2",
     "form-data": "^4.0.4",

@@ -488,6 +488,7 @@ export default function HomePage() {
               <h4 className="footer-heading">Resources</h4>
               <Link href="/ctfs" className="footer-link">CTF Challenges</Link>
               <Link href="/rsvp" className="footer-link">Events</Link>
+              <Link href="/certificates" className="footer-link">Certificates</Link>
               <Link href="/media" className="footer-link">Media</Link>
               <Link href="/sponsor" className="footer-link">Sponsor Us</Link>
             </div>
