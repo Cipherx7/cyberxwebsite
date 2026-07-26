@@ -16,6 +16,13 @@ const NAV_LINKS = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isSubdomain, setIsSubdomain] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsSubdomain(window.location.hostname.startsWith("certificate."));
+    }
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -42,6 +49,14 @@ export default function Navbar() {
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
 
+  const getHref = (href) => {
+    if (isSubdomain) {
+      if (href === "/certificates") return "/";
+      return `https://cyberx.org.in${href === "/" ? "" : href}`;
+    }
+    return href;
+  };
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
@@ -49,7 +64,7 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 group shrink-0">
+        <Link href={getHref("/")} className="flex items-center gap-2 group shrink-0">
           <Image
             src="/assets/logo.png"
             alt="CyberX Logo"
@@ -65,13 +80,13 @@ export default function Navbar() {
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
-              href={link.href}
+              href={getHref(link.href)}
               className="nav-link"
             >
               {link.label}
             </Link>
           ))}
-          <Link href="/join" className="nav-cta">
+          <Link href={getHref("/join")} className="nav-cta">
             Join Us
           </Link>
         </div>
@@ -106,7 +121,7 @@ export default function Navbar() {
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
-              href={link.href}
+              href={getHref(link.href)}
               className="mobile-link"
               onClick={() => setMenuOpen(false)}
             >
@@ -114,7 +129,7 @@ export default function Navbar() {
             </Link>
           ))}
           <Link
-            href="/join"
+            href={getHref("/join")}
             className="nav-cta w-full text-center mt-2"
             onClick={() => setMenuOpen(false)}
           >
