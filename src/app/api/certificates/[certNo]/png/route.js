@@ -9,12 +9,17 @@ import Certificate from '../../../../../../models/Certificate';
 let cachedFontBase64 = null;
 function getFontBase64() {
     if (!cachedFontBase64) {
-        let fontPath = path.join(process.cwd(), 'public', 'assets', 'fonts', 'BricolageGrotesque-Bold.ttf');
+        let fontPath = path.join(process.cwd(), 'public', 'assets', 'fonts', 'BricolageGrotesque-GoogleFonts.ttf');
         if (!fs.existsSync(fontPath)) {
             fontPath = path.join(process.cwd(), 'public', 'assets', 'fonts', 'BricolageGrotesque-Regular.ttf');
         }
+        if (!fs.existsSync(fontPath)) {
+            fontPath = path.join(process.cwd(), 'public', 'assets', 'fonts', 'BricolageGrotesque-Bold.ttf');
+        }
         if (fs.existsSync(fontPath)) {
             cachedFontBase64 = fs.readFileSync(fontPath).toString('base64');
+        } else {
+            console.warn('Font file not found at:', fontPath);
         }
     }
     return cachedFontBase64;
@@ -67,8 +72,6 @@ export async function GET(req, { params }) {
             @font-face {
                 font-family: 'Bricolage Grotesque';
                 src: url('data:font/ttf;charset=utf-8;base64,${fontBase64}') format('truetype');
-                font-weight: 700;
-                font-style: normal;
             }
         ` : '';
 
@@ -104,16 +107,16 @@ export async function GET(req, { params }) {
     <style>
       ${fontFaceStyle}
       .name-text {
-        font-family: 'Bricolage Grotesque', sans-serif;
+        font-family: 'Bricolage Grotesque';
         font-size: 71px;
         font-weight: 500;
         fill: #ffc537;
       }
       .cert-text {
-        font-family: 'Bricolage Grotesque', sans-serif;
+        font-family: 'Bricolage Grotesque';
         font-size: 29.5px;
         font-weight: 300;
-        fill: #ebebebff;
+        fill: #ebebeb;
       }
     </style>
   </defs>
