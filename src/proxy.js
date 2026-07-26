@@ -94,6 +94,27 @@ export async function proxy(req) {
     return NextResponse.next();
   }
 
+  // 1b. Handle subdomain rewriting for certificate.cyberx.org.in
+  const hostname = req.headers.get('host') || '';
+  if (hostname.startsWith('certificate.')) {
+    if (
+      !pathname.startsWith('/_next') &&
+      !pathname.startsWith('/assets') &&
+      !pathname.startsWith('/favicon')
+    ) {
+      if (pathname === '/') {
+        const rewriteUrl = req.nextUrl.clone();
+        rewriteUrl.pathname = '/certificates';
+        return NextResponse.rewrite(rewriteUrl);
+      }
+      if (!pathname.startsWith('/certificates') && !pathname.startsWith('/api')) {
+        const rewriteUrl = req.nextUrl.clone();
+        rewriteUrl.pathname = `/certificates${pathname}`;
+        return NextResponse.rewrite(rewriteUrl);
+      }
+    }
+  }
+
   // 2. Get and verify token
   const token = req.cookies.get(COOKIE_NAME)?.value ||
     req.headers.get('authorization')?.replace('Bearer ', '');
