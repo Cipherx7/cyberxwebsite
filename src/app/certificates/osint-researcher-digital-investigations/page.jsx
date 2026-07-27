@@ -1,40 +1,98 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
   Calendar, Mail, Loader2, ArrowLeft, Linkedin, ExternalLink,
-  Wrench, BookOpen, Globe, Search as SearchIcon, Database,
-  FileText, Shield, Users, Award, X
+  Wrench, BookOpen, Globe, Search as SearchIcon,
+  Shield, Users, Award, X, ChevronDown, Link as LinkIcon
 } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 
 const API_BASE = '/api/certificates';
 
+/* ── Tools actually used in the session (from summary.txt) ── */
 const SESSION_TOOLS = [
-  { name: 'Maltego', desc: 'Link analysis & data visualization for investigations', icon: Globe },
-  { name: 'Shodan', desc: 'Search engine for internet-connected devices', icon: SearchIcon },
-  { name: 'theHarvester', desc: 'Email, subdomain & name gathering tool', icon: Database },
-  { name: 'SpiderFoot', desc: 'Automated OSINT reconnaissance platform', icon: Globe },
-  { name: 'Google Dorking', desc: 'Advanced search operators for intel gathering', icon: SearchIcon },
-  { name: 'OSINT Framework', desc: 'Collection of OSINT tools organized by category', icon: FileText },
-  { name: 'Recon-ng', desc: 'Full-featured web reconnaissance framework', icon: Shield },
-  { name: 'Social Media Analysis', desc: 'Techniques for extracting public social data', icon: Users },
+  { name: 'IDCrawl', desc: 'Social Media Search', url: 'https://www.idcrawl.com', icon: SearchIcon },
+  { name: 'ContactOut', desc: 'LinkedIn Email Finder', url: 'https://contactout.com', icon: Mail },
+  { name: 'SignalHire', desc: 'Contact Finder', url: 'https://www.signalhire.com', icon: Users },
+  { name: 'PimEyes', desc: 'Face Search Engine', url: 'https://pimeyes.com', icon: Globe },
+  { name: 'FaceCheck.ID', desc: 'Face Recognition Search', url: 'https://facecheck.id', icon: Shield },
+  { name: 'Google Images', desc: 'Reverse Image Search', url: 'https://images.google.com', icon: SearchIcon },
+  { name: 'Hunter.io', desc: 'Email & Username Tools', url: 'https://hunter.io', icon: Mail },
+  { name: 'Have I Been Pwned', desc: 'Breach Checker', url: 'https://haveibeenpwned.com', icon: Shield },
 ];
 
-const SESSION_TOPICS = [
-  'Introduction to OSINT & its legal framework',
-  'Passive vs Active reconnaissance techniques',
-  'Email & identity footprinting methodologies',
-  'Social media intelligence (SOCMINT) deep-dive',
-  'Geolocation & image analysis for investigations',
-  'Domain & infrastructure mapping',
-  'Dark web monitoring basics',
-  'Building an OSINT workflow for real-world cases',
+/* ── Full session summary paragraphs (from summary.txt) ── */
+const SESSION_SUMMARY = [
+  `The session began with a welcome address from the CyberX Nashik team, followed by the introduction of Saad Sarraj, Founder & CEO of CyberSudo, an OSINT researcher, digital investigator, and cybersecurity enthusiast from Germany. He introduced the concept of Open-Source Intelligence (OSINT) as the process of gathering information from publicly available resources such as the internet, search engines, and social media platforms. Before beginning the live demonstration, he emphasized that OSINT is a skill that improves through practice and highlighted the importance of conducting investigations legally and ethically. He explained that while investigators may discover sensitive information, it should never be misused or used to gain unauthorized access to someone's accounts.`,
+
+  `To demonstrate a real-world investigation, Saad started with nothing more than the name and location of a person and showed how investigators gradually gather information using publicly available sources. He introduced participants to Google search operators, including the use of quotation marks for exact searches, the site: operator to search within a specific website, and the minus (-) operator to exclude unwanted search results. He explained how these techniques help narrow thousands of search results into a manageable number and save significant investigation time. During the investigation, he searched for the individual's LinkedIn profile, GitHub account, news articles, and other publicly indexed information while documenting every useful finding.`,
+
+  `As the investigation progressed, the session focused on expanding the target's digital footprint using people search engines and professional networking platforms. Saad demonstrated how investigators can discover additional social media profiles, retrieve email addresses associated with LinkedIn accounts using browser extensions, and identify alternative names or previously used identities through publicly available certificates and profile information. He also introduced facial recognition techniques to locate publicly available images and showed how username searches across hundreds of websites can reveal additional online accounts and digital activity. Throughout the demonstration, he repeatedly stressed that successful OSINT investigations rely not only on tools but also on an investigator's ability to connect small pieces of information and verify findings from multiple sources.`,
+
+  `Towards the end of the session, Saad discussed how public breach databases can help investigators determine whether an email address has appeared in previous data breaches and how this information can provide additional context during an investigation. He clarified that the purpose of such searches is to understand a person's digital footprint rather than to misuse leaked information. The webinar concluded with an interactive question-and-answer session, where participants asked about career opportunities in OSINT, the role of artificial intelligence in digital investigations, ethical boundaries, dark web investigations, and practical advice for beginners entering cybersecurity. He encouraged attendees to continue learning through practice, build projects, and develop an investigative mindset, reminding them that OSINT is a skill that grows with continuous experience and real-world application.`,
 ];
 
+/* ── Expandable summary component ── */
+function ExpandableSummary() {
+  const [expanded, setExpanded] = useState(false);
+  const contentRef = useRef(null);
+  const [contentHeight, setContentHeight] = useState(0);
+  const COLLAPSED_HEIGHT = 260; // px visible before "Read more"
 
+  useEffect(() => {
+    if (contentRef.current) {
+      setContentHeight(contentRef.current.scrollHeight);
+    }
+  }, []);
+
+  const needsExpansion = contentHeight > COLLAPSED_HEIGHT;
+
+  return (
+    <div className="relative">
+      <div
+        ref={contentRef}
+        className="overflow-hidden transition-[max-height] duration-500 ease-in-out"
+        style={{ maxHeight: expanded || !needsExpansion ? `${contentHeight + 40}px` : `${COLLAPSED_HEIGHT}px` }}
+      >
+        <div className="space-y-4">
+          {SESSION_SUMMARY.map((para, i) => (
+            <p key={i} className="text-sm text-zinc-400 leading-relaxed">
+              {para}
+            </p>
+          ))}
+        </div>
+      </div>
+
+      {/* Gradient fade + Read more button */}
+      {needsExpansion && !expanded && (
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-zinc-900/95 via-zinc-900/80 to-transparent flex items-end justify-center pb-2">
+          <button
+            onClick={() => setExpanded(true)}
+            className="flex items-center gap-1.5 px-4 py-2 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 rounded-full text-xs text-zinc-300 hover:text-white font-semibold transition-all"
+          >
+            Read full summary
+            <ChevronDown size={13} />
+          </button>
+        </div>
+      )}
+
+      {needsExpansion && expanded && (
+        <div className="flex justify-center mt-4">
+          <button
+            onClick={() => setExpanded(false)}
+            className="flex items-center gap-1.5 px-4 py-2 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 rounded-full text-xs text-zinc-300 hover:text-white font-semibold transition-all"
+          >
+            Show less
+            <ChevronDown size={13} className="rotate-180" />
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
 
 /* ── Main Event Page ── */
 export default function OsintEventPage() {
@@ -110,90 +168,12 @@ export default function OsintEventPage() {
         <section className="px-4 sm:px-6 pb-16 sm:pb-24">
           <div className="max-w-6xl mx-auto grid lg:grid-cols-5 gap-8 lg:gap-12 items-start">
 
-            {/* ── LEFT COLUMN: Session Summary (3/5) ── */}
-            <div className="lg:col-span-3 space-y-8">
-
-              {/* Session Summary */}
-              <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-2xl p-6 sm:p-8">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 rounded-xl bg-yellow-500/10 flex items-center justify-center text-yellow-500">
-                    <BookOpen size={20} />
-                  </div>
-                  <h2 className="text-lg font-bold text-white">Session Summary</h2>
-                </div>
-                <div className="space-y-3">
-                  {SESSION_TOPICS.map((topic, i) => (
-                    <div key={i} className="flex items-start gap-3 group">
-                      <span className="shrink-0 w-6 h-6 rounded-lg bg-yellow-500/10 text-yellow-500 flex items-center justify-center text-[10px] font-bold mt-0.5">
-                        {String(i + 1).padStart(2, '0')}
-                      </span>
-                      <p className="text-sm text-zinc-300 leading-relaxed group-hover:text-white transition-colors">{topic}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Tools Mentioned */}
-              <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-2xl p-6 sm:p-8">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 rounded-xl bg-yellow-500/10 flex items-center justify-center text-yellow-500">
-                    <Wrench size={20} />
-                  </div>
-                  <h2 className="text-lg font-bold text-white">Tools Covered in Session</h2>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {SESSION_TOOLS.map((tool) => {
-                    const Icon = tool.icon;
-                    return (
-                      <div
-                        key={tool.name}
-                        className="flex items-start gap-3 p-3 rounded-xl bg-zinc-800/40 border border-zinc-800 hover:border-yellow-500/20 transition-all group"
-                      >
-                        <div className="w-8 h-8 rounded-lg bg-zinc-800 group-hover:bg-yellow-500/10 flex items-center justify-center text-zinc-500 group-hover:text-yellow-500 transition-all shrink-0 mt-0.5">
-                          <Icon size={14} />
-                        </div>
-                        <div className="min-w-0">
-                          <p className="text-sm font-semibold text-white">{tool.name}</p>
-                          <p className="text-xs text-zinc-500 leading-relaxed mt-0.5">{tool.desc}</p>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Speaker Card */}
-              <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-2xl p-6 sm:p-8">
-                <div className="flex items-start gap-4">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-yellow-500/20 to-yellow-500/5 border border-yellow-500/20 flex items-center justify-center text-yellow-500 shrink-0">
-                    <Users size={24} />
-                  </div>
-                  <div className="space-y-2 flex-1 min-w-0">
-                    <div>
-                      <p className="text-[10px] tracking-widest uppercase text-zinc-500 font-semibold">Speaker</p>
-                      <h3 className="text-lg font-bold text-white">Saad Sarraj</h3>
-                      <p className="text-sm text-zinc-400">aka cybersudo</p>
-                    </div>
-                    <p className="text-sm text-zinc-500 leading-relaxed">
-                      OSINT specialist and digital investigations expert with extensive experience in open-source intelligence gathering, threat analysis, and cyber investigations.
-                    </p>
-                    <a
-                      href="https://www.linkedin.com/in/saadsarraj/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-[#0a66c2]/10 border border-[#0a66c2]/30 text-[#0a66c2] hover:bg-[#0a66c2]/20 rounded-lg text-sm font-semibold transition-all mt-1"
-                    >
-                      <Linkedin size={14} />
-                      Connect on LinkedIn
-                      <ExternalLink size={10} />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* ── RIGHT COLUMN: Certificate Download (2/5) ── */}
-            <div className="lg:col-span-2">
+            {/*
+              ── RIGHT COLUMN: Certificate Download (2/5) ──
+              On mobile (order-1) this renders FIRST.
+              On desktop (lg:order-2) this stays on the right.
+            */}
+            <div className="lg:col-span-2 order-1 lg:order-2">
               <div className="lg:sticky lg:top-24 space-y-6">
                 {/* Download Certificate Card */}
                 <div className="bg-zinc-900/70 backdrop-blur-xl border border-zinc-800 rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
@@ -256,8 +236,6 @@ export default function OsintEventPage() {
                     {errorMsg && (
                       <div className="p-4 bg-red-500/5 border border-red-500/20 rounded-xl text-red-400 text-sm">{errorMsg}</div>
                     )}
-
-
                   </div>
                 </div>
 
@@ -272,6 +250,90 @@ export default function OsintEventPage() {
                 </div>
               </div>
             </div>
+
+            {/*
+              ── LEFT COLUMN: Session Content (3/5) ──
+              On mobile (order-2) this renders BELOW the download card.
+              On desktop (lg:order-1) this stays on the left.
+            */}
+            <div className="lg:col-span-3 order-2 lg:order-1 space-y-8">
+
+              {/* Session Summary — expandable */}
+              <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-2xl p-6 sm:p-8">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 rounded-xl bg-yellow-500/10 flex items-center justify-center text-yellow-500">
+                    <BookOpen size={20} />
+                  </div>
+                  <h2 className="text-lg font-bold text-white">Session Summary</h2>
+                </div>
+                <ExpandableSummary />
+              </div>
+
+              {/* Tools & Resources Mentioned */}
+              <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-2xl p-6 sm:p-8">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 rounded-xl bg-yellow-500/10 flex items-center justify-center text-yellow-500">
+                    <Wrench size={20} />
+                  </div>
+                  <h2 className="text-lg font-bold text-white">Tools & Resources</h2>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {SESSION_TOOLS.map((tool) => {
+                    const Icon = tool.icon;
+                    return (
+                      <a
+                        key={tool.name}
+                        href={tool.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-start gap-3 p-3 rounded-xl bg-zinc-800/40 border border-zinc-800 hover:border-yellow-500/30 transition-all group"
+                      >
+                        <div className="w-8 h-8 rounded-lg bg-zinc-800 group-hover:bg-yellow-500/10 flex items-center justify-center text-zinc-500 group-hover:text-yellow-500 transition-all shrink-0 mt-0.5">
+                          <Icon size={14} />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-1.5">
+                            <p className="text-sm font-semibold text-white group-hover:text-yellow-500 transition-colors">{tool.name}</p>
+                            <ExternalLink size={10} className="text-zinc-600 group-hover:text-yellow-500/50 transition-colors shrink-0" />
+                          </div>
+                          <p className="text-xs text-zinc-500 leading-relaxed mt-0.5">{tool.desc}</p>
+                        </div>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Speaker Card */}
+              <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800 rounded-2xl p-6 sm:p-8">
+                <div className="flex items-start gap-4">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-yellow-500/20 to-yellow-500/5 border border-yellow-500/20 flex items-center justify-center text-yellow-500 shrink-0">
+                    <Users size={24} />
+                  </div>
+                  <div className="space-y-2 flex-1 min-w-0">
+                    <div>
+                      <p className="text-[10px] tracking-widest uppercase text-zinc-500 font-semibold">Speaker</p>
+                      <h3 className="text-lg font-bold text-white">Saad Sarraj</h3>
+                      <p className="text-sm text-zinc-400">Founder & CEO of CyberSudo · OSINT Researcher & Digital Investigator</p>
+                    </div>
+                    <p className="text-sm text-zinc-500 leading-relaxed">
+                      Cybersecurity enthusiast from Germany with extensive experience in open-source intelligence gathering, threat analysis, and digital investigations.
+                    </p>
+                    <a
+                      href="https://www.linkedin.com/in/saadsarraj/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-[#0a66c2]/10 border border-[#0a66c2]/30 text-[#0a66c2] hover:bg-[#0a66c2]/20 rounded-lg text-sm font-semibold transition-all mt-1"
+                    >
+                      <Linkedin size={14} />
+                      Connect on LinkedIn
+                      <ExternalLink size={10} />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </section>
 
