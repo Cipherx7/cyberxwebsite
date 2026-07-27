@@ -258,7 +258,7 @@ export default function CertificateViewPage() {
                         <p className="text-xl font-extrabold text-white leading-tight">{cert.candidateName}</p>
                       </div>
                       <div className="grid grid-cols-2 gap-3 text-xs">
-                        <div>
+                        <div className="col-span-2">
                           <span className="text-zinc-500 block mb-0.5">Event</span>
                           <span className="text-zinc-200 font-medium leading-snug">{cert.eventTitle}</span>
                         </div>
@@ -267,12 +267,8 @@ export default function CertificateViewPage() {
                           <span className="text-zinc-200 font-medium">{cert.eventDate}</span>
                         </div>
                         <div>
-                          <span className="text-zinc-500 block mb-0.5">Category</span>
-                          <span className="text-zinc-200 font-medium">{cert.eventCategory}</span>
-                        </div>
-                        <div>
-                          <span className="text-zinc-500 block mb-0.5">Status</span>
-                          <span className="text-green-400 font-bold">{cert.status}</span>
+                          <span className="text-zinc-500 block mb-0.5">Credential ID</span>
+                          <span className="text-yellow-500 font-mono font-bold">{cert.certificateNo}</span>
                         </div>
                       </div>
                     </div>

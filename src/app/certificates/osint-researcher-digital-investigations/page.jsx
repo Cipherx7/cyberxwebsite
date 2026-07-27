@@ -266,7 +266,6 @@ export default function OsintEventPage() {
                   <p className="text-[10px] tracking-widest uppercase text-zinc-600 font-bold">Quick Info</p>
                   <div className="space-y-2 text-xs text-zinc-500">
                     <div className="flex justify-between"><span>Event Date</span><span className="text-white font-medium">25th July, 2026</span></div>
-                    <div className="flex justify-between"><span>Category</span><span className="text-white font-medium">Technical</span></div>
                     <div className="flex justify-between"><span>Mode</span><span className="text-white font-medium">Online</span></div>
                     <div className="flex justify-between"><span>Certificate</span><span className="text-green-400 font-medium">Available</span></div>
                   </div>

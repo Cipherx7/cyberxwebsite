@@ -112,7 +112,7 @@ function VerifySection() {
             <div><span className="text-zinc-500 block">Name</span><span className="text-white font-medium">{result.candidateName}</span></div>
             <div><span className="text-zinc-500 block">Event</span><span className="text-white font-medium">{result.eventTitle}</span></div>
             <div><span className="text-zinc-500 block">Date</span><span className="text-white font-medium">{result.eventDate}</span></div>
-            <div><span className="text-zinc-500 block">Status</span><span className="text-green-400 font-medium">{result.status}</span></div>
+            <div><span className="text-zinc-500 block">Credential ID</span><span className="text-yellow-500 font-mono font-medium">{result.certificateNo}</span></div>
           </div>
         </div>
       )}
