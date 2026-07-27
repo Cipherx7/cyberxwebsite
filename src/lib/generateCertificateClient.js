@@ -21,7 +21,7 @@ const CERT_COLOR = '#ebebeb';
 
 const FONT_FAMILY = 'Bricolage Grotesque';
 const FONT_URL_REGULAR = '/assets/fonts/BricolageGrotesque-Regular.ttf';
-const TEMPLATE_URL = '/assets/template.png';
+const TEMPLATE_URL = '/assets/template.jpg';
 
 let fontsLoaded = false;
 

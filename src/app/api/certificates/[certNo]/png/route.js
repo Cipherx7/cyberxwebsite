@@ -56,7 +56,10 @@ export async function GET(req, { params }) {
         }
 
         // Load the certificate template
-        let templatePath = path.join(process.cwd(), 'public', 'assets', 'template.png');
+        let templatePath = path.join(process.cwd(), 'public', 'assets', 'template.jpg');
+        if (!fs.existsSync(templatePath)) {
+            templatePath = path.join(process.cwd(), 'public', 'assets', 'template.png');
+        }
         if (!fs.existsSync(templatePath)) {
             templatePath = path.join(process.cwd(), 'public', 'assets', 'certificate-template.png');
         }
