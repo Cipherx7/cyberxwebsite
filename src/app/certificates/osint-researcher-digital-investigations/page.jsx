@@ -1,11 +1,12 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
-  Download, CheckCircle2, X, Award, Calendar, Mail, Loader2,
-  ArrowLeft, Linkedin, ExternalLink, Eye, Copy, Wrench, BookOpen,
-  Globe, Search as SearchIcon, Database, FileText, Shield, Users
+  Calendar, Mail, Loader2, ArrowLeft, Linkedin, ExternalLink,
+  Wrench, BookOpen, Globe, Search as SearchIcon, Database,
+  FileText, Shield, Users, Award, X
 } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 
@@ -33,114 +34,26 @@ const SESSION_TOPICS = [
   'Building an OSINT workflow for real-world cases',
 ];
 
-/* ── Certificate Modal ── */
-function CertificateModal({ cert, onClose }) {
-  if (!cert) return null;
-  const pngUrl = `${API_BASE}/${cert.certificateNo}/png?download=true`;
 
-  return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" onClick={onClose}>
-      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
-      <div
-        className="relative w-full max-w-lg bg-zinc-900/95 backdrop-blur-xl border border-zinc-800 rounded-3xl overflow-hidden shadow-[0_30px_80px_rgba(0,0,0,0.9)]"
-        style={{ animation: 'modalIn 0.3s ease-out' }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="h-1 w-full bg-gradient-to-r from-yellow-500 via-yellow-300 to-yellow-500" />
-
-        <button onClick={onClose} className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-white transition-colors z-10">
-          <X size={16} />
-        </button>
-
-        <div className="p-6 sm:p-8 space-y-6">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-yellow-500/10 flex items-center justify-center text-yellow-500 shrink-0">
-              <Award size={24} />
-            </div>
-            <div>
-              <h3 className="text-lg font-bold text-white">Certificate Preview</h3>
-              <p className="text-xs text-zinc-500 font-mono">{cert.certificateNo}</p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <span className="text-[10px] tracking-wider uppercase text-zinc-500 font-semibold">Candidate</span>
-              <p className="text-sm font-semibold mt-0.5 text-white">{cert.candidateName}</p>
-            </div>
-            <div>
-              <span className="text-[10px] tracking-wider uppercase text-zinc-500 font-semibold">Status</span>
-              <p className="text-sm font-semibold mt-0.5 text-green-400">{cert.status}</p>
-            </div>
-            <div className="col-span-2">
-              <span className="text-[10px] tracking-wider uppercase text-zinc-500 font-semibold">Event</span>
-              <p className="text-sm font-semibold mt-0.5 text-white">{cert.eventTitle}</p>
-            </div>
-            <div>
-              <span className="text-[10px] tracking-wider uppercase text-zinc-500 font-semibold">Category</span>
-              <p className="text-sm font-semibold mt-0.5 text-white">{cert.eventCategory}</p>
-            </div>
-            <div>
-              <span className="text-[10px] tracking-wider uppercase text-zinc-500 font-semibold">Date</span>
-              <p className="text-sm font-semibold mt-0.5 text-white">{cert.eventDate}</p>
-            </div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-3 pt-2">
-            <a
-              href={pngUrl}
-              download
-              className="flex-1 flex items-center justify-center gap-2 px-5 py-3 bg-yellow-500 hover:bg-yellow-400 text-black font-semibold rounded-xl transition-all shadow-[0_0_20px_rgba(234,179,8,0.2)] hover:shadow-[0_0_30px_rgba(234,179,8,0.4)]"
-            >
-              <Download size={16} /> Download PNG
-            </a>
-            <CopyLinkBtn certNo={cert.certificateNo} />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function CopyLinkBtn({ certNo }) {
-  const [copied, setCopied] = useState(false);
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(`https://team.cyberx.org.in/public/certificates?certNo=${certNo}`);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch { /* fallback */ }
-  };
-  return (
-    <button
-      onClick={handleCopy}
-      className="flex-1 flex items-center justify-center gap-2 px-5 py-3 bg-zinc-800 hover:bg-zinc-700 text-white font-semibold rounded-xl border border-zinc-700 transition-all text-sm"
-    >
-      {copied ? <><CheckCircle2 size={16} className="text-green-400" /> Copied!</> : <><Copy size={16} /> Copy Link</>}
-    </button>
-  );
-}
 
 /* ── Main Event Page ── */
 export default function OsintEventPage() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState('idle'); // idle | loading | found | not_found | error
-  const [certificates, setCertificates] = useState([]);
   const [errorMsg, setErrorMsg] = useState('');
-  const [modalCert, setModalCert] = useState(null);
 
   const handleSearch = async (e) => {
     e.preventDefault();
     if (!email.trim()) return;
     setStatus('loading');
     setErrorMsg('');
-    setCertificates([]);
     try {
       const res = await fetch(`${API_BASE}?email=${encodeURIComponent(email.trim())}`);
       const data = await res.json();
       if (res.ok && data.success && data.certificates?.length > 0) {
-        setCertificates(data.certificates);
-        setStatus('found');
+        // Redirect to the dedicated preview page
+        router.push(`/certificates/view/${data.certificates[0].certificateNo}`);
       } else {
         setStatus('not_found');
       }
@@ -320,9 +233,9 @@ export default function OsintEventPage() {
                         className="w-full bg-yellow-500 hover:bg-yellow-400 text-black font-semibold rounded-xl px-6 py-3.5 flex items-center justify-center gap-2 transition-all disabled:opacity-70 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(234,179,8,0.2)] hover:shadow-[0_0_30px_rgba(234,179,8,0.4)] group"
                       >
                         {status === 'loading' ? (
-                          <><Loader2 size={18} className="animate-spin" /> Searching...</>
+                          <><Loader2 size={18} className="animate-spin" /> Searching…</>
                         ) : (
-                          <><Download size={18} /> Download Certificate</>
+                          <>Get Certificate</>
                         )}
                       </button>
                     </form>
@@ -344,49 +257,7 @@ export default function OsintEventPage() {
                       <div className="p-4 bg-red-500/5 border border-red-500/20 rounded-xl text-red-400 text-sm">{errorMsg}</div>
                     )}
 
-                    {/* Results */}
-                    {status === 'found' && certificates.length > 0 && (
-                      <div className="space-y-4">
-                        <p className="text-xs text-zinc-500 font-medium">
-                          Found <span className="text-yellow-500 font-bold">{certificates.length}</span> certificate{certificates.length !== 1 ? 's' : ''}
-                        </p>
-                        {certificates.map((cert) => {
-                          const pngUrl = `${API_BASE}/${cert.certificateNo}/png?download=true`;
-                          return (
-                            <div
-                              key={cert.id || cert.certificateNo}
-                              className="p-4 bg-zinc-800/40 border border-zinc-700 rounded-xl space-y-3"
-                            >
-                              <div className="flex items-start justify-between gap-2">
-                                <div className="min-w-0">
-                                  <p className="text-white font-bold text-sm truncate">{cert.candidateName}</p>
-                                  <p className="text-zinc-500 text-xs font-mono mt-0.5">{cert.certificateNo}</p>
-                                </div>
-                                <span className="shrink-0 text-[9px] tracking-widest uppercase bg-green-500/10 border border-green-500/30 text-green-400 px-2 py-0.5 rounded-full font-bold">
-                                  {cert.status}
-                                </span>
-                              </div>
 
-                              <div className="flex flex-wrap gap-2">
-                                <a
-                                  href={pngUrl}
-                                  download
-                                  className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 bg-yellow-500 hover:bg-yellow-400 text-black text-xs font-semibold rounded-lg transition-all shadow-[0_0_12px_rgba(234,179,8,0.15)]"
-                                >
-                                  <Download size={14} /> Download PNG
-                                </a>
-                                <button
-                                  onClick={() => setModalCert(cert)}
-                                  className="flex items-center justify-center gap-1.5 px-3 py-2.5 bg-zinc-700 hover:bg-zinc-600 text-white text-xs font-semibold rounded-lg border border-zinc-600 transition-all"
-                                >
-                                  <Eye size={14} /> View
-                                </button>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    )}
                   </div>
                 </div>
 
@@ -417,16 +288,6 @@ export default function OsintEventPage() {
           </div>
         </footer>
       </div>
-
-      {/* Modal */}
-      {modalCert && <CertificateModal cert={modalCert} onClose={() => setModalCert(null)} />}
-
-      <style jsx global>{`
-        @keyframes modalIn {
-          from { opacity: 0; transform: scale(0.95) translateY(10px); }
-          to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-      `}</style>
     </div>
   );
 }

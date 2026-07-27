@@ -84,7 +84,7 @@ export async function GET(req, { params }) {
         const nameX = 135;
         const nameY = 282;
         const certNoX = 1747;
-        const certNoY = 1264;
+        const certNoY = 1261;
 
         // Escape XML entities for safety
         const safeName = (certificate.candidateName || '')
@@ -109,7 +109,7 @@ export async function GET(req, { params }) {
       .name-text {
         font-family: 'Bricolage Grotesque';
         font-size: 71px;
-        font-weight: 500;
+        font-weight: 400;
         fill: #ffc537;
       }
       .cert-text {
