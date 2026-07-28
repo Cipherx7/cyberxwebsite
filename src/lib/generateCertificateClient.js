@@ -33,13 +33,28 @@ async function ensureFonts() {
     if (fontsLoaded) return;
 
     try {
-        const regular = new FontFace(FONT_FAMILY, `url(${FONT_URL_REGULAR})`, {
+        const origin = typeof window !== 'undefined' ? window.location.origin : '';
+        const fontUrl = `${origin}${FONT_URL_REGULAR}`;
+
+        const regular = new FontFace(FONT_FAMILY, `url("${fontUrl}")`, {
             weight: '400',
             style: 'normal',
         });
 
         const loadedRegular = await regular.load();
         document.fonts.add(loadedRegular);
+
+        if (document.fonts && document.fonts.ready) {
+            await document.fonts.ready;
+        }
+
+        if (document.fonts && document.fonts.load) {
+            await Promise.allSettled([
+                document.fonts.load(`400 ${NAME_FONT_SIZE}px "${FONT_FAMILY}"`),
+                document.fonts.load(`400 ${CERT_FONT_SIZE}px "${FONT_FAMILY}"`),
+            ]);
+        }
+
         fontsLoaded = true;
     } catch (err) {
         console.warn('Failed to load Bricolage Grotesque font, falling back to sans-serif:', err);
@@ -85,14 +100,14 @@ export async function generateCertificateBlob({ candidateName, certificateNo }) 
 
     // 4. Draw candidate name
     ctx.fillStyle = NAME_COLOR;
-    ctx.font = `400 ${NAME_FONT_SIZE}px '${FONT_FAMILY}', sans-serif`;
+    ctx.font = `400 ${NAME_FONT_SIZE}px "${FONT_FAMILY}", sans-serif`;
     ctx.textBaseline = 'top';
     ctx.textAlign = 'start';
     ctx.fillText(candidateName || '', NAME_X, NAME_Y);
 
     // 5. Draw certificate number
     ctx.fillStyle = CERT_COLOR;
-    ctx.font = `400 ${CERT_FONT_SIZE}px '${FONT_FAMILY}', sans-serif`;
+    ctx.font = `400 ${CERT_FONT_SIZE}px "${FONT_FAMILY}", sans-serif`;
     ctx.textBaseline = 'top';
     ctx.textAlign = 'start';
     ctx.fillText(certificateNo || '', CERT_NO_X, CERT_NO_Y);

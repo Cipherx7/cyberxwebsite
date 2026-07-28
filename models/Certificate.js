@@ -40,6 +40,22 @@ const CertificateSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Rsvp',
     },
+    rating: {
+        type: Number,
+        min: 1,
+        max: 5,
+    },
+    ratingLabel: {
+        type: String,
+        default: '',
+    },
+    comment: {
+        type: String,
+        default: '',
+    },
+    feedbackSubmittedAt: {
+        type: Date,
+    },
 }, {
     timestamps: true,
 });

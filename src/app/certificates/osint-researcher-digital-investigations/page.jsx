@@ -6,7 +6,8 @@ import Link from 'next/link';
 import {
   Calendar, Mail, Loader2, ArrowLeft, Linkedin, ExternalLink,
   Wrench, BookOpen, Globe, Search as SearchIcon,
-  Shield, Users, Award, X, ChevronDown, Link as LinkIcon
+  Shield, Users, Award, X, ChevronDown, Link as LinkIcon,
+  Star, AlertCircle
 } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 
@@ -98,21 +99,41 @@ function ExpandableSummary() {
 export default function OsintEventPage() {
   const router = useRouter();
   const [email, setEmail] = useState('');
+  const [rating, setRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
+  const [comment, setComment] = useState('');
+  const [ratingError, setRatingError] = useState(false);
   const [status, setStatus] = useState('idle'); // idle | loading | found | not_found | error
   const [errorMsg, setErrorMsg] = useState('');
 
   const handleSearch = async (e) => {
     e.preventDefault();
     if (!email.trim()) return;
+
+    if (rating < 1 || rating > 5) {
+      setRatingError(true);
+      return;
+    }
+    setRatingError(false);
+
     setStatus('loading');
     setErrorMsg('');
     try {
-      const res = await fetch(`${API_BASE}?email=${encodeURIComponent(email.trim())}`);
+      const res = await fetch(API_BASE, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email.trim(),
+          rating,
+          comment: comment.trim(),
+        }),
+      });
       const data = await res.json();
       if (res.ok && data.success && data.certificates?.length > 0) {
         // Redirect to the dedicated preview page
         router.push(`/certificates/view/${data.certificates[0].certificateNo}`);
       } else {
+        setErrorMsg(data.error || 'No certificate is associated with this email for this event.');
         setStatus('not_found');
       }
     } catch {
@@ -187,13 +208,16 @@ export default function OsintEventPage() {
                       </div>
                       <div>
                         <h2 className="text-lg font-bold text-white">Download Certificate</h2>
-                        <p className="text-xs text-zinc-500">Enter your registered email</p>
+                        <p className="text-xs text-zinc-500">Submit feedback to get your certificate</p>
                       </div>
                     </div>
 
                     <form onSubmit={handleSearch} className="space-y-4">
+                      {/* Email Address */}
                       <div className="space-y-2">
-                        <label htmlFor="cert-email" className="text-sm font-medium text-zinc-300">Email Address</label>
+                        <label htmlFor="cert-email" className="text-sm font-medium text-zinc-300">
+                          Email Address <span className="text-red-400">*</span>
+                        </label>
                         <div className="relative">
                           <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-600" />
                           <input
@@ -207,13 +231,70 @@ export default function OsintEventPage() {
                           />
                         </div>
                       </div>
+
+                      {/* Rating Slider Bar (1 to 5 Scale - Mandatory) */}
+                      <div className="space-y-2 pt-1">
+                        <div className="flex items-center justify-between">
+                          <label htmlFor="cert-rating-slider" className="text-sm font-medium text-zinc-300">
+                            Rate this Event <span className="text-red-400">*</span>
+                          </label>
+                          <span className="text-xs font-bold px-3 py-0.5 rounded-full border transition-all bg-yellow-500/10 border-yellow-500/30 text-yellow-400">
+                            {rating === 0
+                              ? 'Slide to rate'
+                              : `${rating}/5 — ${
+                                  { 1: 'Needs Improvement', 2: 'Fair', 3: 'Good', 4: 'Excellent', 5: 'Outstanding' }[rating]
+                                }`}
+                          </span>
+                        </div>
+
+                        {/* Clean Slidable Bar Box */}
+                        <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-4 flex items-center">
+                          <input
+                            type="range"
+                            id="cert-rating-slider"
+                            min="1"
+                            max="5"
+                            step="1"
+                            value={rating || 3}
+                            onChange={(e) => {
+                              setRating(Number(e.target.value));
+                              setRatingError(false);
+                            }}
+                            className="w-full h-2.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-yellow-500 focus:outline-none"
+                          />
+                        </div>
+
+                        {ratingError && (
+                          <div className="flex items-center gap-1.5 text-xs text-red-400 pt-0.5">
+                            <AlertCircle size={14} />
+                            <span>Please slide the bar to select your rating before proceeding.</span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Optional Comment Box */}
+                      <div className="space-y-2 pt-1">
+                        <label htmlFor="cert-comment" className="text-sm font-medium text-zinc-300 flex items-center justify-between">
+                          <span>Feedback / Suggestions</span>
+                          <span className="text-zinc-500 text-xs font-normal">Optional</span>
+                        </label>
+                        <textarea
+                          id="cert-comment"
+                          value={comment}
+                          onChange={(e) => setComment(e.target.value)}
+                          rows={3}
+                          placeholder="What did you think of the OSINT session? Share your thoughts!"
+                          className="w-full bg-zinc-950 border border-zinc-800 rounded-xl p-3.5 text-white text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-500/50 transition-all resize-none placeholder:text-zinc-600"
+                        />
+                      </div>
+
                       <button
                         type="submit"
                         disabled={status === 'loading'}
                         className="w-full bg-yellow-500 hover:bg-yellow-400 text-black font-semibold rounded-xl px-6 py-3.5 flex items-center justify-center gap-2 transition-all disabled:opacity-70 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(234,179,8,0.2)] hover:shadow-[0_0_30px_rgba(234,179,8,0.4)] group"
                       >
                         {status === 'loading' ? (
-                          <><Loader2 size={18} className="animate-spin" /> Searching…</>
+                          <><Loader2 size={18} className="animate-spin" /> Submitting & Generating…</>
                         ) : (
                           <>Get Certificate</>
                         )}
