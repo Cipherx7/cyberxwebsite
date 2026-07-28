@@ -14,7 +14,8 @@ import {
     Heart, 
     MessageCircleCode, 
     ThumbsUp, 
-    ExternalLink 
+    ExternalLink,
+    Linkedin
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -54,65 +55,59 @@ export default function JoinUsPage() {
                 {/* Grid layout for major channels */}
                 <div className="grid lg:grid-cols-2 gap-8 items-start mb-16">
 
-                    {/* Discord Card */}
+                    {/* LinkedIn Card */}
                     <div className="bg-zinc-900/60 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 sm:p-8 flex flex-col justify-between h-full shadow-[0_15px_30px_rgba(0,0,0,0.5)] group hover:border-zinc-700 transition-all duration-300">
                         <div className="space-y-6">
                             <div className="flex justify-between items-start">
                                 <div className="space-y-2">
                                     <div className="flex items-center gap-2.5">
-                                        <div className="w-10 h-10 bg-indigo-500/15 text-indigo-400 rounded-xl flex items-center justify-center">
-                                            <MessageSquare size={20} />
+                                        <div className="w-10 h-10 bg-[#0a66c2]/15 text-[#0a66c2] rounded-xl flex items-center justify-center">
+                                            <Linkedin size={20} />
                                         </div>
                                         <div>
-                                            <h2 className="text-xl font-bold">Discord Server</h2>
-                                            <p className="text-xs text-indigo-400 font-semibold tracking-wider uppercase">Active Chat & Collabs</p>
+                                            <h2 className="text-xl font-bold">LinkedIn Community</h2>
+                                            <p className="text-xs text-[#0a66c2] font-semibold tracking-wider uppercase">Professional Network & Updates</p>
                                         </div>
                                     </div>
                                 </div>
-                                <span className="text-[10px] bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 px-2.5 py-1 rounded-full font-bold">
-                                    3,200+ Members
+                                <span className="text-[10px] bg-[#0a66c2]/10 border border-[#0a66c2]/30 text-[#0a66c2] px-2.5 py-1 rounded-full font-bold">
+                                    5,000+ Followers
                                 </span>
                             </div>
                             
                             <p className="text-zinc-400 text-sm leading-relaxed">
-                                Join our central hub to interact with speakers, share custom security tools, organize CTF teams, and chat with local security experts.
+                                Follow our official LinkedIn page for career opportunities, workshop announcements, security insights, and community achievements.
                             </p>
 
-                            {/* Discord Chat Feed Preview */}
-                            <div className="bg-zinc-950/80 rounded-2xl border border-zinc-850 p-4 font-mono text-xs space-y-3 shadow-inner">
-                                <div className="flex items-center justify-between pb-2 border-b border-zinc-900 text-[10px] text-zinc-500">
-                                    <span>#general-chat</span>
-                                    <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                            {/* LinkedIn Feed Preview */}
+                            <div className="bg-zinc-950/80 rounded-2xl border border-zinc-850 p-4 space-y-3 shadow-inner">
+                                <div className="flex items-center gap-2.5 pb-2 border-b border-zinc-900">
+                                    <div className="w-7 h-7 bg-[#0a66c2] text-white font-black rounded-lg flex items-center justify-center text-[10px]">in</div>
+                                    <div>
+                                        <p className="text-xs font-semibold text-zinc-200 leading-tight">CyberX Community</p>
+                                        <p className="text-[9px] text-zinc-500">Cybersecurity Network</p>
+                                    </div>
                                 </div>
-                                <div className="space-y-2 text-zinc-400 max-h-[140px] overflow-y-auto">
-                                    <div className="flex items-start gap-2">
-                                        <span className="text-yellow-500 font-bold">saad_s</span>
-                                        <span className="text-zinc-500">[Speaker]</span>
-                                        <span>Hey guys, slides for the OSINT session are uploaded! 🚀</span>
-                                    </div>
-                                    <div className="flex items-start gap-2">
-                                        <span className="text-white font-semibold">cipher_7</span>
-                                        <span>Awesome! Can we get a link to the CTF sandbox?</span>
-                                    </div>
-                                    <div className="flex items-start gap-2">
-                                        <span className="text-white font-semibold">lucy_sec</span>
-                                        <span>Is anyone participating in the HackTheBox tournament this weekend?</span>
-                                    </div>
-                                    <div className="flex items-start gap-2">
-                                        <span className="text-indigo-400 font-semibold">alex_d</span>
-                                        <span>Count me in! Let's create a team channel.</span>
+                                <div className="space-y-2 text-xs text-zinc-300">
+                                    <p className="text-zinc-300 leading-relaxed text-[11px]">
+                                        🚀 Excited to announce our upcoming hands-on workshop: <strong>How Investigators Find Anyone Online using OSINT</strong>!
+                                    </p>
+                                    <div className="text-[10px] text-zinc-500 flex items-center gap-2 pt-1 border-t border-zinc-900">
+                                        <span>👍 240 Likes</span>
+                                        <span>•</span>
+                                        <span>💬 45 Comments</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <a 
-                            href="https://discord.gg/cyberx" 
+                            href="https://www.linkedin.com/company/cyberx-nashik-community/" 
                             target="_blank" 
                             rel="noopener noreferrer" 
-                            className="mt-6 w-full py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl flex items-center justify-center gap-2 transition-all shadow-[0_0_15px_rgba(79,70,229,0.2)] hover:shadow-[0_0_25px_rgba(79,70,229,0.4)]"
+                            className="mt-6 w-full py-3.5 bg-[#0a66c2] hover:bg-[#084e96] text-white font-semibold rounded-xl flex items-center justify-center gap-2 transition-all shadow-[0_0_15px_rgba(10,102,194,0.2)] hover:shadow-[0_0_25px_rgba(10,102,194,0.4)]"
                         >
-                            Connect on Discord
+                            Follow on LinkedIn
                             <ExternalLink size={14} />
                         </a>
                     </div>
@@ -172,7 +167,7 @@ export default function JoinUsPage() {
                         </div>
 
                         <a 
-                            href="https://chat.whatsapp.com/cyberx" 
+                            href="https://chat.whatsapp.com/BWn6IAb6CS7ETceveQKneO" 
                             target="_blank" 
                             rel="noopener noreferrer" 
                             className="mt-6 w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-xl flex items-center justify-center gap-2 transition-all shadow-[0_0_15px_rgba(16,185,129,0.2)] hover:shadow-[0_0_25px_rgba(16,185,129,0.4)]"

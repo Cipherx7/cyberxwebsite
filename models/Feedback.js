@@ -14,7 +14,7 @@ const FeedbackSchema = new mongoose.Schema({
     },
     eventTitle: {
         type: String,
-        default: 'OSINT Researcher & Digital Investigations',
+        default: 'How Investigators Find Anyone Online using OSINT',
     },
     rating: {
         type: Number,

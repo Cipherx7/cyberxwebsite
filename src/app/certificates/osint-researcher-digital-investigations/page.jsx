@@ -7,7 +7,7 @@ import {
   Calendar, Mail, Loader2, ArrowLeft, Linkedin, ExternalLink,
   Wrench, BookOpen, Globe, Search as SearchIcon,
   Shield, Users, Award, X, ChevronDown, Link as LinkIcon,
-  Star, AlertCircle
+  Star, AlertCircle, HelpCircle, MessageCircle
 } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 
@@ -169,11 +169,10 @@ export default function OsintEventPage() {
           <div className="max-w-6xl mx-auto space-y-4">
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-[10px] tracking-widest uppercase bg-yellow-500/10 border border-yellow-500/30 text-yellow-500 px-2.5 py-0.5 rounded-full font-bold">Online</span>
-              <span className="text-[10px] tracking-widest uppercase bg-zinc-800 border border-zinc-700 text-zinc-400 px-2.5 py-0.5 rounded-full font-bold">Technical</span>
               <span className="text-[10px] tracking-widest uppercase bg-green-500/10 border border-green-500/30 text-green-400 px-2.5 py-0.5 rounded-full font-bold">Completed</span>
             </div>
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight tracking-tight">
-              OSINT Researcher & <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-yellow-200">Digital Investigations</span>
+              How Investigators Find Anyone Online using <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-yellow-200">OSINT</span>
             </h1>
             <p className="text-zinc-400 text-base sm:text-lg max-w-3xl leading-relaxed">
               How Investigators Find Anyone Online — Discover how professionals transform scattered public data into actionable intelligence using powerful OSINT techniques and frameworks.
@@ -320,13 +319,32 @@ export default function OsintEventPage() {
                   </div>
                 </div>
 
-                {/* Quick Info */}
-                <div className="bg-zinc-900/40 border border-zinc-800 rounded-xl p-4 space-y-2">
-                  <p className="text-[10px] tracking-widest uppercase text-zinc-600 font-bold">Quick Info</p>
-                  <div className="space-y-2 text-xs text-zinc-500">
-                    <div className="flex justify-between"><span>Event Date</span><span className="text-white font-medium">25th July, 2026</span></div>
-                    <div className="flex justify-between"><span>Mode</span><span className="text-white font-medium">Online</span></div>
-                    <div className="flex justify-between"><span>Certificate</span><span className="text-green-400 font-medium">Available</span></div>
+                {/* Need Help Box */}
+                <div className="bg-zinc-900/60 backdrop-blur-xl border border-zinc-800 rounded-2xl p-5 space-y-3 shadow-lg">
+                  <div className="flex items-center gap-2.5 text-yellow-500">
+                    <HelpCircle size={18} />
+                    <h3 className="text-sm font-bold text-white">Need Help?</h3>
+                  </div>
+                  <p className="text-xs text-zinc-400 leading-relaxed">
+                    Can&apos;t find your certificate or facing issues with your registered email? Feel free to reach out to CyberX support.
+                  </p>
+                  <div className="pt-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                    <a
+                      href="mailto:info@cyberx.org.in"
+                      className="inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-750 text-xs font-semibold text-zinc-200 transition-colors border border-zinc-700/50"
+                    >
+                      <Mail size={14} className="text-yellow-500" />
+                      Email Support
+                    </a>
+                    <a
+                      href="https://chat.whatsapp.com/BWn6IAb6CS7ETceveQKneO"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-xs font-semibold text-emerald-400 transition-colors border border-emerald-500/30"
+                    >
+                      <MessageCircle size={14} />
+                      WhatsApp Group
+                    </a>
                   </div>
                 </div>
               </div>

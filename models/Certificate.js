@@ -18,7 +18,7 @@ const CertificateSchema = new mongoose.Schema({
     },
     eventTitle: {
         type: String,
-        default: 'OSINT Researcher & Digital Investigations',
+        default: 'How Investigators Find Anyone Online using OSINT',
     },
     eventCategory: {
         type: String,
@@ -30,7 +30,7 @@ const CertificateSchema = new mongoose.Schema({
     },
     descriptionTopic: {
         type: String,
-        default: 'OSINT Researcher & Digital Investigations',
+        default: 'How Investigators Find Anyone Online using OSINT',
     },
     status: {
         type: String,

@@ -10,12 +10,12 @@ const API_BASE = '/api/certificates';
 const EVENTS = [
   {
     id: 'osint-researcher-digital-investigations',
-    title: 'OSINT Researcher & Digital Investigations',
+    title: 'How Investigators Find Anyone Online using OSINT',
     date: '25th July, 2026',
     category: 'Technical',
     type: 'Online',
     speaker: 'Saad Sarraj (cybersudo)',
-    description: 'How Investigators Find Anyone Online using OSINT — Learn how investigators turn scattered public data into actionable intelligence.',
+    description: 'Learn how investigators turn scattered public data into actionable intelligence.',
     status: 'completed',
   },
 ];
@@ -185,9 +185,6 @@ export default function CertificatesPage() {
                       <div className="flex flex-wrap items-center gap-2">
                         <span className="text-[10px] tracking-widest uppercase bg-yellow-500/10 border border-yellow-500/30 text-yellow-500 px-2.5 py-0.5 rounded-full font-bold">
                           {evt.type}
-                        </span>
-                        <span className="text-[10px] tracking-widest uppercase bg-zinc-800 border border-zinc-700 text-zinc-400 px-2.5 py-0.5 rounded-full font-bold">
-                          {evt.category}
                         </span>
                         <span className="text-[10px] tracking-widest uppercase bg-green-500/10 border border-green-500/30 text-green-400 px-2.5 py-0.5 rounded-full font-bold">
                           Completed
