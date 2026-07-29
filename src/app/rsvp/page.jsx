@@ -1,19 +1,33 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
-import { Calendar, Clock, Video, User, ArrowRight, ShieldCheck, CheckCircle2, MessageCircleQuestion, Globe, Linkedin } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { 
+  Calendar, 
+  User, 
+  ArrowRight, 
+  CheckCircle2, 
+  Globe, 
+  Linkedin, 
+  Award, 
+  Download, 
+  Mail, 
+  AlertCircle, 
+  HelpCircle, 
+  MessageCircle,
+  ExternalLink,
+  ShieldCheck
+} from 'lucide-react';
 import { detectLanguage, getTranslations, languageNames } from './translations';
 import Navbar from '@/components/Navbar';
 
 export default function RsvpPage() {
+    const router = useRouter();
     const [lang, setLang] = useState('en');
     const [t, setT] = useState(getTranslations('en'));
     const [showLangMenu, setShowLangMenu] = useState(false);
-    const [formData, setFormData] = useState({ name: '', email: '', privacyAccepted: false, anonymousQuestion: '' });
-    const [rsvpDetails, setRsvpDetails] = useState(null);
-    const [status, setStatus] = useState('idle'); // idle, loading, success, error
-    const [errorMessage, setErrorMessage] = useState('');
+    const [lookupEmail, setLookupEmail] = useState('');
 
     useEffect(() => {
         const detected = detectLanguage();
@@ -27,161 +41,31 @@ export default function RsvpPage() {
         setShowLangMenu(false);
     };
 
-    const handleSubmit = async (e) => {
+    const handleCertificateLookup = (e) => {
         e.preventDefault();
-        
-        if (!formData.name || !formData.email || !formData.privacyAccepted) {
-            setErrorMessage(t.errorRequired);
-            return;
-        }
-
-
-
-        setStatus('loading');
-        setErrorMessage('');
-
-        try {
-            const res = await fetch('/api/rsvp', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
-
-            const data = await res.json();
-
-            if (res.ok) {
-                setRsvpDetails(data.data);
-                setStatus('success');
-            } else {
-                setStatus('error');
-                setErrorMessage(data.error || t.errorGeneric);
-            }
-        } catch (error) {
-            setStatus('error');
-            setErrorMessage(t.errorNetwork);
-        }
+        if (!lookupEmail.trim()) return;
+        router.push(`/certificates/osint-researcher-digital-investigations?email=${encodeURIComponent(lookupEmail.trim())}`);
     };
-
-    const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: type === 'checkbox' ? checked : value
-        }));
-    };
-
-    if (status === 'success' && rsvpDetails) {
-        return (
-            <div className="min-h-screen bg-black text-white selection:bg-yellow-500/30">
-                <Navbar />
-                
-                {/* Background elements */}
-                <div className="fixed inset-0 overflow-hidden pointer-events-none">
-                    <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-yellow-500/10 blur-[120px]" />
-                    <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-yellow-500/5 blur-[120px]" />
-                </div>
-
-                <div className="flex flex-col items-center justify-center min-h-screen p-4 pt-24 pb-12 relative z-10">
-                    <div className="w-16 h-16 bg-green-500/10 text-green-500 rounded-full flex items-center justify-center mb-4 shadow-[0_0_30px_rgba(34,197,94,0.3)] animate-pulse">
-                        <CheckCircle2 size={32} />
-                    </div>
-                    <h2 className="text-2xl sm:text-3xl font-bold text-center mb-1 text-white tracking-tight">{t.successTitle}</h2>
-                    <p className="text-zinc-400 text-xs sm:text-sm text-center mb-6 max-w-sm">
-                        {t.successMessage} <span className="text-yellow-500 font-medium">{rsvpDetails.email}</span>. Your ticket pass is ready!
-                    </p>
-
-                    {/* Sleek Ticket Pass */}
-                    <div className="relative w-full max-w-sm bg-zinc-900/60 backdrop-blur-xl border border-zinc-800 rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
-                        {/* Gold accent top bar */}
-                        <div className="h-1.5 w-full bg-gradient-to-r from-yellow-500 via-yellow-300 to-yellow-500" />
-                        
-                        {/* Ticket Content */}
-                        <div className="p-6 space-y-5">
-                            {/* Logo and Event Status */}
-                            <div className="flex justify-between items-center border-b border-zinc-850 pb-3">
-                                <span className="font-extrabold text-base tracking-wider text-white">CYBER<span className="text-yellow-500">X</span></span>
-                                <span className="text-[9px] tracking-widest uppercase bg-yellow-500/10 border border-yellow-500/30 text-yellow-500 px-2 py-0.5 rounded-full font-bold">
-                                    Official Pass
-                                </span>
-                            </div>
-
-                            {/* Event Title */}
-                            <div className="space-y-0.5">
-                                <span className="text-[9px] tracking-wider uppercase text-zinc-500 font-semibold">Event</span>
-                                <h4 className="text-sm font-bold text-white leading-snug">
-                                    {rsvpDetails.eventName}
-                                </h4>
-                            </div>
-
-                            {/* Ticket Details */}
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="space-y-0.5">
-                                    <span className="text-[9px] tracking-wider uppercase text-zinc-500 font-semibold">Attendee</span>
-                                    <p className="text-xs font-semibold text-white truncate">{rsvpDetails.name}</p>
-                                </div>
-                                <div className="space-y-0.5 text-right">
-                                    <span className="text-[9px] tracking-wider uppercase text-zinc-500 font-semibold">Date & Time</span>
-                                    <p className="text-[10px] font-semibold text-white leading-tight">
-                                        {rsvpDetails.eventDate}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Ticket Cutouts & Dashed Divider */}
-                        <div className="relative flex items-center justify-between">
-                            <div className="absolute left-[-10px] w-5 h-5 rounded-full bg-black border-r border-zinc-800 z-10" />
-                            <div className="w-full border-t border-dashed border-zinc-800/80 mx-4" />
-                            <div className="absolute right-[-10px] w-5 h-5 rounded-full bg-black border-l border-zinc-800 z-10" />
-                        </div>
-
-                        {/* Ticket Stub (QR Code) */}
-                        <div className="p-6 bg-zinc-950/40 flex flex-col items-center justify-center space-y-3">
-                            <div className="p-2 bg-white rounded-xl shadow-[0_0_15px_rgba(255,255,255,0.03)] border border-zinc-200">
-                                <img 
-                                    src={`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(rsvpDetails.qrCode)}`}
-                                    alt="Registration QR Code" 
-                                    className="w-32 h-32 object-contain rounded-lg"
-                                    loading="lazy"
-                                />
-                            </div>
-                            <div className="text-center space-y-0.5">
-                                <span className="text-[8px] tracking-widest uppercase text-zinc-500 font-semibold">Access Pass Code</span>
-                                <p className="text-xs font-mono font-bold text-yellow-500 tracking-wider">
-                                    {rsvpDetails.qrCode}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button 
-                        onClick={() => window.location.href = '/'}
-                        className="mt-6 px-6 py-3 bg-zinc-900 border border-zinc-850 text-white rounded-full font-medium hover:bg-zinc-800 transition-colors w-full max-w-xs flex items-center justify-center gap-2 text-sm"
-                    >
-                        {t.backHome}
-                    </button>
-                </div>
-            </div>
-        );
-    }
 
     return (
         <div className="min-h-screen bg-black text-white selection:bg-yellow-500/30">
             <Navbar />
 
             {/* Background elements */}
-            <div className="fixed inset-0 overflow-hidden pointer-events-none">
+            <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
                 <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-yellow-500/10 blur-[120px]" />
                 <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-yellow-500/5 blur-[120px]" />
                 <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20 mix-blend-overlay" />
             </div>
 
-            <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-12 lg:py-20 pt-24 sm:pt-28">
+            <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-12 lg:py-20 pt-24 sm:pt-28">
                 
-                {/* Header */}
-                <header className="mb-10 sm:mb-16 flex justify-end">
+                {/* Header with Language Switcher */}
+                <header className="mb-8 flex justify-between items-center">
+                    <div className="flex items-center gap-2 text-xs font-semibold text-zinc-400 bg-zinc-900/80 border border-zinc-800 px-3 py-1.5 rounded-full backdrop-blur-md">
+                        <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                        Registrations Closed
+                    </div>
 
                     {/* Language Switcher */}
                     <div className="relative">
@@ -192,7 +76,9 @@ export default function RsvpPage() {
                         >
                             <Globe size={16} className="text-yellow-500" />
                             <span className="hidden sm:inline">{languageNames[lang]}</span>
-                            <svg className={`w-3 h-3 transition-transform ${showLangMenu ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                            <svg className={`w-3 h-3 transition-transform ${showLangMenu ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
                         </button>
 
                         {showLangMenu && (
@@ -226,14 +112,18 @@ export default function RsvpPage() {
                     {/* Event Details Left Side */}
                     <div className="space-y-8 sm:space-y-10">
                         <div className="space-y-4 sm:space-y-6">
-                            <div className="inline-flex items-center px-3 py-1 rounded-full border border-yellow-500/30 bg-yellow-500/10 text-yellow-500 text-sm font-medium">
-                                <span className="w-2 h-2 rounded-full bg-yellow-500 mr-2 animate-pulse" />
-                                {t.badge}
+                            <div className="flex flex-wrap items-center gap-2">
+                                <span className="text-[10px] tracking-widest uppercase bg-red-500/10 border border-red-500/30 text-red-400 px-3 py-1 rounded-full font-bold">
+                                    Registrations Closed
+                                </span>
+                                <span className="text-[10px] tracking-widest uppercase bg-green-500/10 border border-green-500/30 text-green-400 px-3 py-1 rounded-full font-bold flex items-center gap-1">
+                                    <CheckCircle2 size={12} /> Event Concluded
+                                </span>
                             </div>
                             
-                            <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold leading-[1.1] tracking-tight">
+                            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.1] tracking-tight">
                                 {t.title} <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-yellow-200">{t.titleHighlight}</span>
-                            </h2>
+                            </h1>
                             
                             <p className="text-base sm:text-lg text-zinc-400 leading-relaxed max-w-xl">
                                 {t.description}
@@ -270,119 +160,102 @@ export default function RsvpPage() {
                                 </div>
                                 <div>
                                     <p className="text-sm text-zinc-500 font-medium">{t.dateLabel}</p>
-                                    <p className="text-white font-semibold text-base sm:text-lg">{t.dateValue}</p>
+                                    <p className="text-white font-semibold text-base sm:text-lg">{t.dateValue}, 2026</p>
                                     <p className="text-xs text-zinc-400 mt-1">{t.timeValue}<br/>{t.timeAlt}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    {/* RSVP Form Right Side */}
+                    {/* Certificate Download Section Right Side (Replaces RSVP Form) */}
                     <div className="relative">
-                        {/* Glow effect behind form */}
-                        <div className="absolute inset-0 bg-gradient-to-tr from-yellow-500/20 to-transparent blur-3xl -z-10 rounded-3xl" />
+                        {/* Glow effect */}
+                        <div className="absolute inset-0 bg-gradient-to-tr from-yellow-500/20 via-yellow-500/10 to-transparent blur-3xl -z-10 rounded-3xl" />
                         
-                        <div className="bg-zinc-900/80 backdrop-blur-xl border border-zinc-800 rounded-3xl p-6 sm:p-8 lg:p-10 shadow-2xl">
-                            <div className="mb-6 sm:mb-8">
-                                <h3 className="text-xl sm:text-2xl font-bold mb-2">{t.formTitle}</h3>
-                                <p className="text-zinc-400 text-sm">{t.formSubtitle}</p>
+                        <div className="bg-zinc-900/90 backdrop-blur-xl border border-yellow-500/30 rounded-3xl p-6 sm:p-8 lg:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.8)] relative overflow-hidden space-y-6">
+                            
+                            {/* Gold top accent line */}
+                            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-500 via-yellow-300 to-yellow-500" />
+
+                            <div className="space-y-3">
+                                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 text-xs font-bold uppercase tracking-wider">
+                                    <Award size={14} /> Certificate Ready
+                                </div>
+                                <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                                    Claim Your Certificate
+                                </h2>
+                                <p className="text-zinc-400 text-sm leading-relaxed">
+                                    Registrations for this live session are now closed. If you attended or registered for this event, enter your registered email address below to download your verified certificate of completion.
+                                </p>
                             </div>
 
-                            <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
+                            {/* Direct Certificate Lookup Form */}
+                            <form onSubmit={handleCertificateLookup} className="space-y-4 pt-2">
                                 <div className="space-y-2">
-                                    <label htmlFor="name" className="text-sm font-medium text-zinc-300">{t.nameLabel}</label>
-                                    <input 
-                                        type="text" 
-                                        id="name"
-                                        name="name"
-                                        value={formData.name}
-                                        onChange={handleChange}
-                                        className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-500/50 transition-all text-sm sm:text-base"
-                                        placeholder={t.namePlaceholder}
-                                        required
-                                    />
-                                </div>
-
-                                <div className="space-y-2">
-                                    <label htmlFor="email" className="text-sm font-medium text-zinc-300">{t.emailLabel}</label>
-                                    <input 
-                                        type="email" 
-                                        id="email"
-                                        name="email"
-                                        value={formData.email}
-                                        onChange={handleChange}
-                                        className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-500/50 transition-all text-sm sm:text-base"
-                                        placeholder={t.emailPlaceholder}
-                                        required
-                                    />
-                                </div>
-
-                                <div className="space-y-2">
-                                    <div className="flex items-center gap-2 flex-wrap">
-                                        <label htmlFor="anonymousQuestion" className="text-sm font-medium text-zinc-300">{t.questionLabel}</label>
-                                        <span className="text-xs text-zinc-600 bg-zinc-800 px-2 py-0.5 rounded-full">{t.questionOptional}</span>
-                                    </div>
+                                    <label htmlFor="lookup-email" className="text-sm font-medium text-zinc-300">
+                                        Registered Email Address
+                                    </label>
                                     <div className="relative">
-                                        <div className="absolute top-3 left-4 text-zinc-600">
-                                            <MessageCircleQuestion size={16} />
-                                        </div>
-                                        <textarea
-                                            id="anonymousQuestion"
-                                            name="anonymousQuestion"
-                                            value={formData.anonymousQuestion}
-                                            onChange={handleChange}
-                                            rows={3}
-                                            className="w-full bg-zinc-950 border border-zinc-800 rounded-xl pl-10 pr-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-500/50 transition-all resize-none text-sm"
-                                            placeholder={t.questionPlaceholder}
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="flex items-start gap-3 pt-2">
-                                    <div className="flex items-center h-5 mt-1">
+                                        <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500" />
                                         <input
-                                            id="privacyAccepted"
-                                            name="privacyAccepted"
-                                            type="checkbox"
-                                            checked={formData.privacyAccepted}
-                                            onChange={handleChange}
-                                            className="w-4 h-4 rounded border-zinc-700 bg-zinc-950 text-yellow-500 focus:ring-yellow-500/50 focus:ring-offset-zinc-900 cursor-pointer"
+                                            type="email"
+                                            id="lookup-email"
+                                            value={lookupEmail}
+                                            onChange={(e) => setLookupEmail(e.target.value)}
+                                            placeholder="Enter your registered email..."
+                                            className="w-full bg-zinc-950 border border-zinc-800 rounded-xl pl-11 pr-4 py-3.5 text-white text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500/50 focus:border-yellow-500/50 transition-all placeholder:text-zinc-600"
                                             required
                                         />
                                     </div>
-                                    <label htmlFor="privacyAccepted" className="text-sm text-zinc-400 cursor-pointer select-none">
-                                        {t.privacyText} <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-yellow-500 hover:underline">{t.privacyLink}</a> {t.privacyConsent}
-                                    </label>
                                 </div>
 
-                                {errorMessage && (
-                                    <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm flex items-start gap-2">
-                                        <ShieldCheck size={16} className="mt-0.5 shrink-0" />
-                                        <p>{errorMessage}</p>
-                                    </div>
-                                )}
-
-                                <button 
-                                    type="submit" 
-                                    disabled={status === 'loading'}
-                                    className="w-full bg-yellow-500 hover:bg-yellow-400 text-black font-semibold rounded-xl px-6 py-3.5 sm:py-4 flex items-center justify-center gap-2 transition-all disabled:opacity-70 disabled:cursor-not-allowed group mt-4 shadow-[0_0_20px_rgba(234,179,8,0.2)] hover:shadow-[0_0_30px_rgba(234,179,8,0.4)]"
+                                <button
+                                    type="submit"
+                                    className="w-full bg-yellow-500 hover:bg-yellow-400 text-black font-extrabold rounded-xl px-6 py-4 flex items-center justify-center gap-2 transition-all shadow-[0_0_25px_rgba(234,179,8,0.25)] hover:shadow-[0_0_35px_rgba(234,179,8,0.45)] group text-sm sm:text-base cursor-pointer"
                                 >
-                                    {status === 'loading' ? (
-                                        <span className="flex items-center gap-2">
-                                            <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                            </svg>
-                                            {t.loadingButton}
-                                        </span>
-                                    ) : (
-                                        <>
-                                            {t.submitButton}
-                                            <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                                        </>
-                                    )}
+                                    <Download size={18} />
+                                    <span>Download Certificate</span>
+                                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                                 </button>
                             </form>
+
+                            {/* Direct Link to Certificate Portal */}
+                            <div className="pt-4 border-t border-zinc-800/80 flex flex-col gap-3">
+                                <Link
+                                    href="/certificates/osint-researcher-digital-investigations"
+                                    className="w-full bg-zinc-950 hover:bg-zinc-850 border border-zinc-800 text-zinc-200 hover:text-white font-semibold rounded-xl px-4 py-3 flex items-center justify-center gap-2 text-xs transition-colors"
+                                >
+                                    <span>Open Event Certificate Page</span>
+                                    <ExternalLink size={12} className="text-yellow-500" />
+                                </Link>
+
+                                <Link
+                                    href="/certificates"
+                                    className="text-center text-xs text-zinc-500 hover:text-yellow-500 transition-colors"
+                                >
+                                    View All Community Certificates →
+                                </Link>
+                            </div>
+
+                            {/* Need Help Box */}
+                            <div className="p-4 bg-zinc-950/60 border border-zinc-850 rounded-2xl space-y-2">
+                                <div className="flex items-center gap-2 text-xs font-bold text-yellow-500">
+                                    <HelpCircle size={14} /> Need Help Finding Your Certificate?
+                                </div>
+                                <p className="text-xs text-zinc-400 leading-relaxed">
+                                    Facing issues with your email or certificate? Contact support:
+                                </p>
+                                <div className="flex items-center gap-3 pt-1 text-xs">
+                                    <a href="mailto:info@cyberx.org.in" className="text-zinc-300 hover:text-yellow-500 transition-colors flex items-center gap-1 font-medium">
+                                        <Mail size={12} className="text-yellow-500" /> Email Support
+                                    </a>
+                                    <span className="text-zinc-700">•</span>
+                                    <a href="https://chat.whatsapp.com/BWn6IAb6CS7ETceveQKneO" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:underline flex items-center gap-1 font-medium">
+                                        <MessageCircle size={12} /> WhatsApp
+                                    </a>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>

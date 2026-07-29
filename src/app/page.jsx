@@ -292,7 +292,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-6">
           <FadeIn>
             <div className="section-header">
-              <span className="section-tag">Live Session</span>
+              <span className="section-tag">Past Event · Certificate Available</span>
               <h2 className="section-title">
                 Learn from the <span className="text-gradient">Experts</span>
               </h2>
@@ -304,14 +304,14 @@ export default function HomePage() {
               <div className="event-banner-card">
                 <div className="event-banner-content">
                   <span className="event-banner-badge">
-                    <span className="w-2 h-2 rounded-full bg-[var(--color-cyber-yellow)] animate-pulse" style={{ marginRight: '0.25rem' }} />
-                    Live Online Event
+                    <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" style={{ marginRight: '0.25rem' }} />
+                    Event Completed
                   </span>
                   <h3 className="event-banner-title">
                     How Investigators Find Anyone Online using OSINT
                   </h3>
                   <p className="event-banner-desc">
-                    What if the internet already contains the answers you&apos;re looking for? Join us as we reveal how investigators turn scattered public data into actionable intelligence.
+                    What if the internet already contains the answers you&apos;re looking for? Discover how investigators turn scattered public data into actionable intelligence.
                   </p>
                   
                   <div className="event-banner-meta">
@@ -338,8 +338,8 @@ export default function HomePage() {
                 </div>
 
                 <div className="event-banner-footer">
-                  <Link href="/rsvp" className="btn-primary">
-                    <span>Reserve a Spot</span>
+                  <Link href="/certificates/osint-researcher-digital-investigations" className="btn-primary">
+                    <span>Download Certificate</span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="18"
@@ -349,7 +349,9 @@ export default function HomePage() {
                       stroke="currentColor"
                       strokeWidth="2"
                     >
-                      <path d="M5 12h14M12 5l7 7-7 7" />
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <polyline points="7 10 12 15 17 10" />
+                      <line x1="12" y1="15" x2="12" y2="3" />
                     </svg>
                   </Link>
                 </div>
